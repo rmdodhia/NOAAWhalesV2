@@ -1,0 +1,11 @@
+librosa
+numpy
+pandas
+matplotlib
+pytz
+torch
+torchvision
+lightning
+scikit-learn
+Pillow
+tqdm
