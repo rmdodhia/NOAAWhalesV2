@@ -1,6 +1,6 @@
 Directory structure
 
-NOAA_Whales
+NOAAWhalesV2
     --> DataInput
         --> Beluga
             --> 201D/604536840
@@ -21,172 +21,171 @@ NOAA_Whales
                 --> (bunch of wav files)
             --> Annotations
                 --> (bunch of labels in csv)
-        --> Whales_CLassification_2022
-            --> Humpback
-                --> AL16_BS4_hump_data
-                    --> (bunch of wav files)
-                --> AL16_BS4_hump_selections
-                    --> (bunch of txt files)
-                --> AL16_NM1_hump_data
-                    --> (bunch of wav files)
-                --> AL16_NM1_hump_selections
-                    --> (bunch of txt files)
-                --> LCI_Chinitna_hump_data
-                    --> (bunch of wav files)
-                --> LCI_Chinitna_hump_selections
-                    --> (bunch of txt files)
-                --> LCI_Iniskin_hump_data
-                    --> (bunch of wav files)
-                --> LCI_Iniskin_humpback_selections
-                    --> (bunch of txt files)
-                --> LCI_Port_Graham_hump_selections
-                    --> (bunch of txt files)
-                --> LCI_Port_Graham_humpback
-                    --> (bunch of wav files)
-            --> KillerWhale
-                --> Chinitna
-                    --> Chinitna_encounter_1.Table.1.selections.txt
-                    --> Chinitna_encounter_1.wav
-                    --> Chinitna_encounter_2.Table.1.selections.txt
-                    --> Chinitna_encounter_2.wav
-                    --> Chinitna_encounter_3.Table.1.selections.txt
-                    --> Chinitna_encounter_3.wav
-                    --> Chinitna_encounter_4 (1).Table.1.selections.txt
-                    --> Chinitna_encounter_4 (1).wav
-                    --> Chinitna_encounter_4 (2).Table.1.selections.txt
-                    --> Chinitna_encounter_4 (2).wav
-                    --> Chinitna_encounter_6.Table.1.selections.txt
-                    --> Chinitna_encounter_6.wav
-                    --> Chinitna_encounter_7.Table.1.selections.txt
-                    --> Chinitna_encounter_7.wav
-                    --> Chinitna_encounter_8.Table.1.selections.txt
-                    --> Chinitna_encounter_8.wav
-                    --> Chinitna_encounter_9.Table.1.selections.txt
-                    --> Chinitna_encounter_9.wav
-                    --> Chinitna_encounter_11.Table.1.selections.txt
-                    --> Chinitna_encounter_11.wav
-                    --> Chinitna_encounter_13.Table.1.selections.txt
-                    --> Chinitna_encounter_13.wav
-                --> Iniskin
-                    --> Iniskin_encounter_1.Table.1.selections.txt
-                    --> Iniskin_encounter_1.wav
-                    --> Iniskin_encounter_2.Table.1.selections.txt
-                    --> Iniskin_encounter_2.wav
-                    --> Iniskin_encounter_3.Table.1.selections.txt
-                    --> Iniskin_encounter_3.wav
-                    --> Iniskin_encounter_4.Table.1.selections.txt
-                    --> Iniskin_encounter_4.wav
-                    --> Iniskin_encounter_5.Table.1.selections.txt
-                    --> Iniskin_encounter_5.wav
-                    --> Iniskin_encounter_6.Table.1.selections.txt
-                    --> Iniskin_encounter_6.wav
-                    --> Iniskin_encounter_7.Table.1.selections.txt
-                    --> Iniskin_encounter_7.wav
-                    --> Iniskin_encounter_8.Table.1.selections.txt
-                    --> Iniskin_encounter_8.wav
-                    --> Iniskin_encounter_9.Table.1.selections.txt
-                    --> Iniskin_encounter_9.wav
-                    --> Iniskin_encounter_10.Table.1.selections.txt
-                    --> Iniskin_encounter_10.wav
-                    --> Iniskin_encounter_11.Table.1.selections.txt
-                    --> Iniskin_encounter_11.wav
-                    --> Iniskin_encounter_12.Table.1.selections.txt
-                    --> Iniskin_encounter_12.wav
-                    --> Iniskin_encounter_13.Table.1.selections.txt
-                    --> Iniskin_encounter_13.wav
-                    --> Iniskin_encounter_14.Table.1.selections.txt
-                    --> Iniskin_encounter_14.wav
-                --> PtGraham
-                    --> PtGraham_encounter_1.Table.1.selections.txt
-                    --> PtGraham_encounter_1.wav
-                    --> PtGraham_encounter_2.Table.1.selections.txt
-                    --> PtGraham_encounter_2.wav
-                    --> PtGraham_encounter_3.Table.1.selections.txt
-                    --> PtGraham_encounter_3.wav
-                    --> PtGraham_encounter_4.Table.1.selections.txt
-                    --> PtGraham_encounter_4.wav
-                    --> PtGraham_encounter_5.Table.1.selections.txt
-                    --> PtGraham_encounter_5.wav
-                    --> PtGraham_encounter_6.Table.1.selections.txt
-                    --> PtGraham_encounter_6.wav
-                    --> PtGraham_encounter_7.Table.1.selections.txt
-                    --> PtGraham_encounter_7.wav
-                    --> PtGraham_encounter_8.Table.1.selections.txt
-                    --> PtGraham_encounter_8.wav
-                    --> PtGraham_encounter_9.Table.1.selections.txt
-                    --> PtGraham_encounter_9.wav
-                    --> PtGraham_encounter_10.Table.1.selections.txt
-                    --> PtGraham_encounter_10.wav
-                    --> PtGraham_encounter_11.Table.1.selections.txt
-                    --> PtGraham_encounter_11.wav
-                    --> PtGraham_encounter_12.Table.1.selections.txt
-                    --> PtGraham_encounter_12.wav
-                    --> PtGraham_encounter_13.Table.1.selections.txt
-                    --> PtGraham_encounter_13.wav
-                    --> PtGraham_encounter_14.Table.1.selections.txt
-                    --> PtGraham_encounter_14.wav
-                    --> PtGraham_encounter_15.Table.1.selections.txt
-                    --> PtGraham_encounter_15.wav
-                    --> PtGraham_encounter_16.Table.1.selections.txt
-                    --> PtGraham_encounter_16.wav
-                    --> PtGraham_encounter_17.Table.1.selections.txt
-                    --> PtGraham_encounter_17.wav
-                    --> PtGraham_encounter_18.Table.1.selections.txt
-                    --> PtGraham_encounter_18.wav
-                    --> PtGraham_encounter_19.Table.1.selections.txt
-                    --> PtGraham_encounter_19.wav
-                    --> PtGraham_encounter_20.Table.1.selections.txt
-                    --> PtGraham_encounter_20.wav
-                    --> PtGraham_encounter_21.Table.1.selections.txt
-                    --> PtGraham_encounter_21.wav
-                    --> PtGraham_encounter_22.Table.1.selections.txt
-                    --> PtGraham_encounter_22.wav
-                    --> PtGraham_encounter_23.Table.1.selections.txt
-                    --> PtGraham_encounter_23.wav
-                    --> PtGraham_encounter_24.Table.1.selections.txt
-                    --> PtGraham_encounter_24.wav
-                    --> PtGraham_encounter_25.Table.1.selections.txt
-                    --> PtGraham_encounter_25.wav
-                    --> PtGraham_encounter_26.Table.1.selections.txt
-                    --> PtGraham_encounter_26.wav
-                    --> PtGraham_encounter_27.Table.1.selections.txt
-                    --> PtGraham_encounter_27.wav
-                    --> PtGraham_encounter_28.Table.1.selections.txt
-                    --> PtGraham_encounter_28.wav
-                    --> PtGraham_encounter_29.Table.1.selections.txt
-                    --> PtGraham_encounter_29.wav
-                    --> PtGraham_encounter_30.Table.1.selections.txt
-                    --> PtGraham_encounter_30.wav
-                    --> PtGraham_encounter_31.Table.1.selections.txt
-                    --> PtGraham_encounter_31.wav
-                    --> PtGraham_encounter_32.Table.1.selections.txt
-                    --> PtGraham_encounter_32.wav
-                    --> PtGraham_encounter_33.Table.1.selections.txt
-                    --> PtGraham_encounter_33.wav
-                    --> PtGraham_encounter_34.Table.1.selections.txt
-                    --> PtGraham_encounter_34.wav
-                    --> PtGraham_encounter_35.Table.1.selections.txt
-                    --> PtGraham_encounter_35.wav
-                    --> PtGraham_encounter_36.Table.1.selections.txt
-                    --> PtGraham_encounter_36.wav
-                    --> PtGraham_encounter_37.Table.1.selections.txt
-                    --> PtGraham_encounter_37.wav
-                --> SWCorner
-                    --> SWcorner_encounter_1.Table.1.selections.txt
-                    --> SWcorner_encounter_1.wav
-                    --> SWcorner_encounter_2.Table.1.selections.txt
-                    --> SWcorner_encounter_2.wav
-                    --> SWcorner_encounter_3.Table.1.selections.txt
-                    --> SWcorner_encounter_3.wav
-                    --> SWcorner_encounter_4.Table.1.selections.txt
-                    --> SWcorner_encounter_4.wav
-                    --> SWcorner_encounter_5.Table.1.selections.txt
-                    --> SWcorner_encounter_5.wav
-                    --> SWcorner_encounter_6.Table.1.selections.txt
-                    --> SWcorner_encounter_6.wav
-                    --> SWcorner_encounter_7.Table.1.selections.txt
-                    --> SWcorner_encounter_7.wav
-                    --> SWcorner_encounter_9.Table.1.selections.txt
-                    --> SWcorner_encounter_9.wav
-                    
-                                              
+        --> Humpback
+            --> AL16_BS4_hump_data
+                --> (bunch of wav files)
+            --> AL16_BS4_hump_selections
+                --> (bunch of txt files)
+            --> AL16_NM1_hump_data
+                --> (bunch of wav files)
+            --> AL16_NM1_hump_selections
+                --> (bunch of txt files)
+            --> LCI_Chinitna_hump_data
+                --> (bunch of wav files)
+            --> LCI_Chinitna_hump_selections
+                --> (bunch of txt files)
+            --> LCI_Iniskin_hump_data
+                --> (bunch of wav files)
+            --> LCI_Iniskin_humpback_selections
+                --> (bunch of txt files)
+            --> LCI_Port_Graham_hump_selections
+                --> (bunch of txt files)
+            --> LCI_Port_Graham_humpback
+                --> (bunch of wav files)
+        --> Orca
+            --> Chinitna
+                --> Chinitna_encounter_1.Table.1.selections.txt
+                --> Chinitna_encounter_1.wav
+                --> Chinitna_encounter_2.Table.1.selections.txt
+                --> Chinitna_encounter_2.wav
+                --> Chinitna_encounter_3.Table.1.selections.txt
+                --> Chinitna_encounter_3.wav
+                --> Chinitna_encounter_4 (1).Table.1.selections.txt
+                --> Chinitna_encounter_4 (1).wav
+                --> Chinitna_encounter_4 (2).Table.1.selections.txt
+                --> Chinitna_encounter_4 (2).wav
+                --> Chinitna_encounter_6.Table.1.selections.txt
+                --> Chinitna_encounter_6.wav
+                --> Chinitna_encounter_7.Table.1.selections.txt
+                --> Chinitna_encounter_7.wav
+                --> Chinitna_encounter_8.Table.1.selections.txt
+                --> Chinitna_encounter_8.wav
+                --> Chinitna_encounter_9.Table.1.selections.txt
+                --> Chinitna_encounter_9.wav
+                --> Chinitna_encounter_11.Table.1.selections.txt
+                --> Chinitna_encounter_11.wav
+                --> Chinitna_encounter_13.Table.1.selections.txt
+                --> Chinitna_encounter_13.wav
+            --> Iniskin
+                --> Iniskin_encounter_1.Table.1.selections.txt
+                --> Iniskin_encounter_1.wav
+                --> Iniskin_encounter_2.Table.1.selections.txt
+                --> Iniskin_encounter_2.wav
+                --> Iniskin_encounter_3.Table.1.selections.txt
+                --> Iniskin_encounter_3.wav
+                --> Iniskin_encounter_4.Table.1.selections.txt
+                --> Iniskin_encounter_4.wav
+                --> Iniskin_encounter_5.Table.1.selections.txt
+                --> Iniskin_encounter_5.wav
+                --> Iniskin_encounter_6.Table.1.selections.txt
+                --> Iniskin_encounter_6.wav
+                --> Iniskin_encounter_7.Table.1.selections.txt
+                --> Iniskin_encounter_7.wav
+                --> Iniskin_encounter_8.Table.1.selections.txt
+                --> Iniskin_encounter_8.wav
+                --> Iniskin_encounter_9.Table.1.selections.txt
+                --> Iniskin_encounter_9.wav
+                --> Iniskin_encounter_10.Table.1.selections.txt
+                --> Iniskin_encounter_10.wav
+                --> Iniskin_encounter_11.Table.1.selections.txt
+                --> Iniskin_encounter_11.wav
+                --> Iniskin_encounter_12.Table.1.selections.txt
+                --> Iniskin_encounter_12.wav
+                --> Iniskin_encounter_13.Table.1.selections.txt
+                --> Iniskin_encounter_13.wav
+                --> Iniskin_encounter_14.Table.1.selections.txt
+                --> Iniskin_encounter_14.wav
+            --> PtGraham
+                --> PtGraham_encounter_1.Table.1.selections.txt
+                --> PtGraham_encounter_1.wav
+                --> PtGraham_encounter_2.Table.1.selections.txt
+                --> PtGraham_encounter_2.wav
+                --> PtGraham_encounter_3.Table.1.selections.txt
+                --> PtGraham_encounter_3.wav
+                --> PtGraham_encounter_4.Table.1.selections.txt
+                --> PtGraham_encounter_4.wav
+                --> PtGraham_encounter_5.Table.1.selections.txt
+                --> PtGraham_encounter_5.wav
+                --> PtGraham_encounter_6.Table.1.selections.txt
+                --> PtGraham_encounter_6.wav
+                --> PtGraham_encounter_7.Table.1.selections.txt
+                --> PtGraham_encounter_7.wav
+                --> PtGraham_encounter_8.Table.1.selections.txt
+                --> PtGraham_encounter_8.wav
+                --> PtGraham_encounter_9.Table.1.selections.txt
+                --> PtGraham_encounter_9.wav
+                --> PtGraham_encounter_10.Table.1.selections.txt
+                --> PtGraham_encounter_10.wav
+                --> PtGraham_encounter_11.Table.1.selections.txt
+                --> PtGraham_encounter_11.wav
+                --> PtGraham_encounter_12.Table.1.selections.txt
+                --> PtGraham_encounter_12.wav
+                --> PtGraham_encounter_13.Table.1.selections.txt
+                --> PtGraham_encounter_13.wav
+                --> PtGraham_encounter_14.Table.1.selections.txt
+                --> PtGraham_encounter_14.wav
+                --> PtGraham_encounter_15.Table.1.selections.txt
+                --> PtGraham_encounter_15.wav
+                --> PtGraham_encounter_16.Table.1.selections.txt
+                --> PtGraham_encounter_16.wav
+                --> PtGraham_encounter_17.Table.1.selections.txt
+                --> PtGraham_encounter_17.wav
+                --> PtGraham_encounter_18.Table.1.selections.txt
+                --> PtGraham_encounter_18.wav
+                --> PtGraham_encounter_19.Table.1.selections.txt
+                --> PtGraham_encounter_19.wav
+                --> PtGraham_encounter_20.Table.1.selections.txt
+                --> PtGraham_encounter_20.wav
+                --> PtGraham_encounter_21.Table.1.selections.txt
+                --> PtGraham_encounter_21.wav
+                --> PtGraham_encounter_22.Table.1.selections.txt
+                --> PtGraham_encounter_22.wav
+                --> PtGraham_encounter_23.Table.1.selections.txt
+                --> PtGraham_encounter_23.wav
+                --> PtGraham_encounter_24.Table.1.selections.txt
+                --> PtGraham_encounter_24.wav
+                --> PtGraham_encounter_25.Table.1.selections.txt
+                --> PtGraham_encounter_25.wav
+                --> PtGraham_encounter_26.Table.1.selections.txt
+                --> PtGraham_encounter_26.wav
+                --> PtGraham_encounter_27.Table.1.selections.txt
+                --> PtGraham_encounter_27.wav
+                --> PtGraham_encounter_28.Table.1.selections.txt
+                --> PtGraham_encounter_28.wav
+                --> PtGraham_encounter_29.Table.1.selections.txt
+                --> PtGraham_encounter_29.wav
+                --> PtGraham_encounter_30.Table.1.selections.txt
+                --> PtGraham_encounter_30.wav
+                --> PtGraham_encounter_31.Table.1.selections.txt
+                --> PtGraham_encounter_31.wav
+                --> PtGraham_encounter_32.Table.1.selections.txt
+                --> PtGraham_encounter_32.wav
+                --> PtGraham_encounter_33.Table.1.selections.txt
+                --> PtGraham_encounter_33.wav
+                --> PtGraham_encounter_34.Table.1.selections.txt
+                --> PtGraham_encounter_34.wav
+                --> PtGraham_encounter_35.Table.1.selections.txt
+                --> PtGraham_encounter_35.wav
+                --> PtGraham_encounter_36.Table.1.selections.txt
+                --> PtGraham_encounter_36.wav
+                --> PtGraham_encounter_37.Table.1.selections.txt
+                --> PtGraham_encounter_37.wav
+            --> SWCorner
+                --> SWcorner_encounter_1.Table.1.selections.txt
+                --> SWcorner_encounter_1.wav
+                --> SWcorner_encounter_2.Table.1.selections.txt
+                --> SWcorner_encounter_2.wav
+                --> SWcorner_encounter_3.Table.1.selections.txt
+                --> SWcorner_encounter_3.wav
+                --> SWcorner_encounter_4.Table.1.selections.txt
+                --> SWcorner_encounter_4.wav
+                --> SWcorner_encounter_5.Table.1.selections.txt
+                --> SWcorner_encounter_5.wav
+                --> SWcorner_encounter_6.Table.1.selections.txt
+                --> SWcorner_encounter_6.wav
+                --> SWcorner_encounter_7.Table.1.selections.txt
+                --> SWcorner_encounter_7.wav
+                --> SWcorner_encounter_9.Table.1.selections.txt
+                --> SWcorner_encounter_9.wav
+                
+                                            

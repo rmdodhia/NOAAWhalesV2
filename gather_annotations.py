@@ -58,4 +58,4 @@ if __name__ == "__main__":
         if s != "Beluga"
             singleAnnotationsFile(species=s)
         else:
-            os.system('python belugaAnnotations.py')
+            os.system('python gather_beluga_annotations.py')

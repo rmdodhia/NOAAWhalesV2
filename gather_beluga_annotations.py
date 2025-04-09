@@ -100,9 +100,9 @@ def makeAnnotationsDf(folder_name):
     timezone_utc_minus_8 = pytz.timezone('Etc/GMT+8')
     annotations['filestarttime'] = annotations['audiofile'].apply(lambda x: datetime.strptime(x.split('.')[1], '%y%m%d%H%M%S').replace(tzinfo=timezone_utc_minus_8))
     
-    annotations['Begin Time (s)'] = pd.to_datetime(annotations['Begin Time (s)'])
+    annotations['Begin Time (s)'] = pd.to_datetime(annotations['Begin Time (s)'],utc=True)
+    annotations['End Time (s)'] = pd.to_datetime(annotations['End Time (s)'],utc=True)
     
-    annotations['End Time (s)'] = pd.to_datetime(annotations['End Time (s)'])
     
     annotations['startseconds'] = (annotations['Begin Time (s)'] - annotations['filestarttime']).dt.total_seconds()
     # Create a dictionary to map wav file names to their datetime stamps

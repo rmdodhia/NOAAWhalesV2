@@ -28,7 +28,7 @@ def spectrogram_to_image(args):
     
     # Compute the spectrogram
     spectrogram = librosa.feature.melspectrogram(y=segment, sr=sr)
-    spectrogram = librosa.feature.S
+
     # Generate the plot and save it
     plt.figure(figsize=(4, 4))
     plt.axis('off')
@@ -102,7 +102,7 @@ HOW TO USE THIS FILE TO MAKE SPECTROGRAM IMAGES WITH labels
 
 # make sure you have an annotation file like belugaAnnotations.csv or humpback_annotations.csv
 ## for beluga, use the file belugaAnnotations.py
-## for humpback, and probably killer whale, use singleAnnotationsFile() in this script
+## for humpback, and probably killer whale, use gather_annotations.py 
 ## Required columns are
 ### Begin Time (s)
 ### End Time (s)
@@ -111,44 +111,66 @@ HOW TO USE THIS FILE TO MAKE SPECTROGRAM IMAGES WITH labels
 ### labelfile
 
 
+def generate_spectrograms_and_labels_for_species_locations(species_name, location_names, annotation_csv_path=None, sdur=2, overlap=0.4):
+    """
+    Generates spectrograms and label files for each location of a given species.
 
+    Args:
+        species_name (str): Name of the whale species (e.g., "Orca", "Beluga", "Humpback")
+        location_names (list): List of location names as strings
+        annotation_csv_path (str): Path to the annotation CSV file
+        sdur (int): Segment duration in seconds
+        overlap (float): Overlap in seconds
+    """
+    logging.info(f"Starting spectrogram generation for species: {species_name}")
+    for name in location_names:
+        logging.info(f"Processing location: {name}")
+        source_audio_folder = f'./DataInput/{species_name}/{name}'
+        destination_image_folder = f'./DataInput/{species_name}/SpectrogramsOverlap400ms/{name}'
+        if annotation_csv_path is None:
+            annotation_csv_path = f'/home/radodhia/ssdprivate/NOAAWhalesV2/DataInput/{species_name}/{species_name}_annotations.csv'
 
-# if __name__ == "__main__":
-kwLocNaMES='Chinitna','Iniskin','PtGraham','SWCorner'
+        df = make_spectrograms_with_labels(
+            sourceAudioFolder=source_audio_folder,
+            destinationImageFolder=destination_image_folder,
+            allAnnotationsCsv=annotation_csv_path,
+            sdur=sdur,
+            overlap=overlap
+        )
 
-for name in kwLocNaMES:
-    # name = kwLocNaMES[0]
-    sourceAudioFolder = f'./DataInput/Whales_Classification_2022/KillerWhale/{name}'
-    destinationImageFolder = f'./DataInput/KillerWhale/SpectrogramsOverlap400ms/{name}'
-    allAnnotationsCsv = '/home/radodhia/ssdprivate/NOAA_Whales/DataInput/KillerWhale/killerwhale_annotations.csv'
+        output_csv_path = f'/home/radodhia/ssdprivate/NOAAWhalesV2/DataInput/{species_name}/{name.lower()}_{species_name.lower()}_overlap{int(overlap*1000)}ms_spectrogram_labels.csv'
+        df.to_csv(output_csv_path, index=False)
+        logging.info(f"Finished processing location: {name}. Labels saved to {output_csv_path}")
+    logging.info(f"Completed spectrogram generation for species: {species_name}")
 
+def combine_label_csvs(species_name, overlap_ms=400):
+    """
+    Combines all per-location label CSVs into a master label file for a species.
 
-    ## Combine raw selections files for killer whales into one file
-    # Find all the text files in the folders
+    Args:
+        species_name (str): Name of the whale species (e.g., "Orca")
+        overlap_ms (int): Overlap duration in milliseconds, used in filename matching
+    """
+    logging.info(f"Starting CSV combination for species: {species_name}")
+    base_path = f'/home/radodhia/ssdprivate/NOAAWhalesV2/DataInput/{species_name}'
+    pattern = os.path.join(base_path, f'*_{species_name.lower()}_overlap{overlap_ms}ms_spectrogram_labels.csv')
+    file_list = glob.glob(pattern)
+    logging.info(f"Found {len(file_list)} CSV files to combine.")
 
-    # Run the combined process for a specific location
-    #df is the label file, each png will have 0 or 1
-    df = make_spectrograms_with_labels(sourceAudioFolder, destinationImageFolder, allAnnotationsCsv, sdur=2, overlap=0.4)
-    df.to_csv(f'/home/radodhia/ssdprivate/NOAA_Whales/DataInput/KillerWhale/{name}_killerwhale_overlap400ms_spectrogram_labels.csv', index=False)
+    label_df = pd.concat([pd.read_csv(file) for file in file_list])
 
+    label_df['location'] = label_df['filename'].str.split('_').str[0].str.replace('AU-', '')
+    label_df['dirpath'] = label_df.apply(
+        lambda x: os.path.join(base_path, 'SpectrogramsOverlap400ms', x['location']), axis=1
+    )
+    label_df['fullpath'] = label_df.apply(
+        lambda x: os.path.join(base_path, 'SpectrogramsOverlap400ms', x['location'], x['filename']), axis=1
+    )
 
-## combine all location-based label files into one file
-# Get a list of all the csv files
-file_list = glob.glob('/home/radodhia/ssdprivate/NOAA_Whales/DataInput/KillerWhale/*killerwhale_overlap400ms_spectrogram_labels.csv')
+    output_csv_path = os.path.join(base_path, f'{species_name.lower()}_spectrogram_labels_overlap{overlap_ms}ms.csv')
+    label_df.to_csv(output_csv_path, index=False)
+    logging.info(f"Combined CSV saved to {output_csv_path}")
+    logging.info(f"Completed CSV combination for species: {species_name}")
 
-# Combine all the csv files into one dataframe
-label = pd.concat([pd.read_csv(file) for file in file_list])
-
-#add columns to label file to make it easier to split into train - validation - test
-label['location'] = label['filename'].str.split('_').str[0].str.replace('AU-', '')
-label['dirpath'] = label.apply(lambda x: os.path.join('/home/radodhia/ssdprivate/NOAA_Whales/DataInput/KillerWhale/SpectrogramsOverlap400ms', x['location']), axis=1)
-
-
-label['fullpath'] = label.apply(lambda x: os.path.join('/home/radodhia/ssdprivate/NOAA_Whales/DataInput/KillerWhale/SpectrogramsOverlap400ms', x['location'], x['filename']), axis=1)
-# label.groupby('location')['label'].count()
-# label.groupby('location')['label'].sum()
-# label.groupby('location')['label'].mean()
-
-# Save the combined dataframe to a new csv file
-label.to_csv('/home/radodhia/ssdprivate/NOAA_Whales/DataInput/KillerWhale/killerwhale_spectrogram_labels_overlap400ms.csv', index=False)
-
+generate_spectrograms_and_labels_for_species_locations('Orca',['Iniskin','PtGraham','Chinitna','SWCorner'])
+combine_label_csvs(species_name="Orca", overlap_ms=400)
