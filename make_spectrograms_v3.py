@@ -13,6 +13,7 @@ import glob
 import pandas as pd
 
 # Set up logging
+os.makedirs('Logs', exist_ok=True)
 log_file = f'Logs/make_spectrograms{datetime.datetime.now(pytz.timezone("America/Los_Angeles")).strftime("%Y-%m-%d_%H-%M-%S")}.log'
 logging.basicConfig(filename=log_file, level=logging.INFO, format='%(asctime)s %(message)s')
 
@@ -93,29 +94,6 @@ def make_spectrograms_with_labels(sourceAudioFolder, destinationImageFolder, all
     
     df = pd.DataFrame(all_results, columns=['filename', 'label'])
     return df
-
-
-def singleAnnotationsFile():
-    ''' 
-    Combines selections.txt files (time segments of detected calls) into one file
-    '''
-    file_list = []
-    for root, dirs, files in os.walk('/home/radodhia/ssdprivate/NOAA_Whales/DataInput/Whales_Classification_2022/KillerWhale'):
-        for file in files:
-            if file.endswith('.txt'):
-                file_list.append(os.path.join(root, file))
-
-    # Combine the contents of all the text files into a single dataframe
-    combined_df = pd.DataFrame()
-    for file in file_list:
-        df = pd.read_csv(file,sep='\t')
-        df['location'] = file.split('/')[-2]
-        df['annotationfile'] = file
-        df['audiofile'] = file.split('/')[-1].split('.')[0]+'.wav'
-        combined_df = pd.concat([combined_df, df])
-
-    # Save the combined dataframe to a CSV file
-    combined_df.to_csv('/home/radodhia/ssdprivate/NOAA_Whales/DataInput/KillerWhale/killerwhale_annotations.csv', index=False)
 
 
 

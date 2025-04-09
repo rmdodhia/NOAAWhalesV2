@@ -46,8 +46,9 @@ def find_min_diff_sorted(a, b):
     return result
 
 def makeAnnotationsDf(folder_name):
-    ann_path = f'/home/radodhia/ssdprivate/NOAA_Whales/DataInput/Beluga/Annotations'
-    wav_path = f'/home/radodhia/ssdprivate/NOAA_Whales/DataInput/Beluga/{folder_name}'
+    base = f'/home/radodhia/ssdprivate/NOAAWhalesV2/DataInput/Beluga/'
+    ann_path = f'{base}Annotations'
+    wav_path = f'{base}{folder_name}'
     
     # Find all the wav files recursively under the given folder
     wav_files = []
@@ -113,6 +114,7 @@ def makeAnnotationsDf(folder_name):
 
 
 wavFolders=[folder for folder in os.listdir('DataInput/Beluga') if folder.startswith('2') and os.path.isdir(os.path.join('DataInput/Beluga', folder))]
+#Ignoring 205D and 207D as per Manolo in notes.txt
 wavFolders.remove('205D')
 wavFolders.remove('207D')
 wavFolders.sort()
