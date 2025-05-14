@@ -1,0 +1,36 @@
+from audio_processing.py
+
+In the dataset, you can do this:
+def __getitem__(self, idx):
+
+       x = self.data[idx]
+       y = self.labels[idx]
+
+       scale = 255.0 / (x.max() - x.min())
+       x = (x - x.min()) * scale
+
+       if self.augment:
+           x1 = random_mask_h(random_mask_v(x))
+           x1 = random_crop(x1, crop_size=self.max_len)
+           x1 = random_multiply(x1)
+           x1 = Image.fromarray(x1[::-1, :]).convert('L')
+           return self.transform(x1),  y
+if you think these augmentations are too strong, you can also try this 
+
+from dataset.py
+data_transforms = {
+    'train': transforms.Compose([
+        transforms.Resize((224, 224)),
+        transforms.RandomAffine(degrees=0, translate=(0.2, 0.03), fillcolor=int(0.5 * 255)),
+        transforms.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.3, hue=0),
+        transforms.ToTensor(),
+        transforms.Normalize([0.5], [0.5])
+    ]),
+    'test': transforms.Compose([
+        transforms.Resize((224, 224)),
+        transforms.ToTensor(),
+        transforms.Normalize([0.5], [0.5])
+    ])
+    }
+    
+Affine moves the segment horizontally, and colorjitter basically changes the amplitude of the input images, sounds weird but actually helps 
