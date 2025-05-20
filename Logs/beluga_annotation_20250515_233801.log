@@ -1,0 +1,19 @@
+2025-05-15 23:38:03,702 Processed 201D: 7194 valid annotations from 201D_PG_WandM_Detector-processed.csv
+2025-05-15 23:38:04,825 Total audio: 5407546.9s, Annotated: 3128.7s, Coverage: 0.06%
+2025-05-15 23:38:09,108 Processed 206D: 66661 valid annotations from 206D_PG_WandM_Detector-processed.csv
+2025-05-15 23:38:10,597 Total audio: 6614614.5s, Annotated: 27771.3s, Coverage: 0.42%
+2025-05-15 23:38:11,218 Processed 213D: 6675 valid annotations from 213D_PG_WandM_Detector-processed.csv
+2025-05-15 23:38:11,231 Total audio: 7516287.0s, Annotated: 2692.6s, Coverage: 0.04%
+2025-05-15 23:38:11,839 Processed 214D: 12308 valid annotations from 214D_PG_WandM_Detector-processed.csv
+2025-05-15 23:38:11,851 Total audio: 7481511.7s, Annotated: 5184.9s, Coverage: 0.07%
+2025-05-15 23:38:12,299 Processed 215D: 7171 valid annotations from 215D_PG_WandM_Detector-processed.csv
+2025-05-15 23:38:12,307 Total audio: 4258803.9s, Annotated: 3042.2s, Coverage: 0.07%
+2025-05-15 23:38:14,755 
+Annotation counts by location:
+2025-05-15 23:38:14,757 location  count percentage
+    201D   7194      7.19%
+    206D  66661     66.66%
+    213D   6675      6.67%
+    214D  12308     12.31%
+    215D   7171      7.17%
+2025-05-15 23:38:14,758 Saved combined annotations to /home/radodhia/ssdprivate/NOAAWhalesV2/DataInput/Beluga/Beluga_annotations.csv
