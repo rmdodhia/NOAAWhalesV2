@@ -1,5 +1,3 @@
-%cd /home/radodhia/ssdprivate/NOAAWhalesV2
-
 import os
 import librosa
 import numpy as np
@@ -10,6 +8,9 @@ import logging
 import datetime
 import pytz
 import glob
+
+#run this script from the root of the repository
+os.chdir('/home/radodhia/ssdprivate/NOAAWhalesV2')
 
 # ---- Config ----
 SDUR = 2        # duration of each audio segment in seconds
@@ -197,9 +198,21 @@ def combine_label_csvs(species_name, overlap_ms=400):
     logging.info(f"Master CSV saved to {out}")
 
 if __name__ == '__main__':
-    # Example calls
+    # generate_spectrograms_and_labels_for_species_locations(
+    #     species_name='Humpback',
+    #     location_names=['AL16_BS4_humpback_data', 'LCI_Chinitna_humpback_data','LCI_Iniskin_humpback_data','LCI_Port_Graham_humpback_data'],
+    #     annotation_csv_path=None
+    # )
+
+    # generate_spectrograms_and_labels_for_species_locations(
+    #     species_name='Orca',
+    #     location_names=['SWCorner', 'Chinitna','Iniskin','PtGraham'],
+    #     annotation_csv_path=None
+    # )
+
+    #Ignoring 205D and 207D as per notes.txt
     generate_spectrograms_and_labels_for_species_locations(
-        species_name='Humpback',
-        location_names=['AL16_BS4_hump_data', 'LCI_Chinitna_hump_data'],
+        species_name='Beluga',
+        location_names=['201D', '206D','213D','214D','215D'],
         annotation_csv_path=None
     )

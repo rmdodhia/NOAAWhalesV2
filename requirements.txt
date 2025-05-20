@@ -9,3 +9,5 @@ lightning
 scikit-learn
 Pillow
 tqdm
+torchaudio
+multiprocessing

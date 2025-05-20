@@ -22,14 +22,35 @@ def parsedt(timestr, with_decimals=False):
     for fmt in formats:
         try:
             dt = datetime.strptime(timestr, fmt)
-            return dt if with_decimals else dt.strftime('%y%m%d%H%M%S')
+            if with_decimals:
+                return dt  # return full datetime with tzinfo
+            else:
+                return dt.strftime('%y%m%d%H%M%S')  # used for wav file matching
         except ValueError:
             continue
     return None
 
-def find_closest_preceding(a_sorted, b_list):
-    a_sorted.sort()
-    return [a_sorted[bisect.bisect_left(a_sorted, b) - 1] if bisect.bisect_left(a_sorted, b) > 0 else None for b in b_list]
+def find_closest_preceding(a_list, b_list):
+    """
+    For each value in b_list, find the closest value in a_list that is <= b.
+    Returns a list of closest preceding values, or None if none found.
+    """
+    # Clean and sort the reference list
+    a_sorted = sorted(filter(pd.notnull, a_list))
+
+    results = []
+    for i, b in enumerate(b_list):
+        if pd.isnull(b):
+            results.append(None)
+            continue
+
+        pos = bisect.bisect_right(a_sorted, b)
+        if pos == 0:
+            results.append(None)  # No preceding element
+        else:
+            results.append(a_sorted[pos - 1])
+    
+    return results
 
 def load_wav_file_metadata(wav_path):
     wav_files = []
@@ -71,7 +92,7 @@ def process_annotation_csv(folder_name, base_path, annotations_path):
         log(f"No annotation file found for {folder_name}")
         return pd.DataFrame()
 
-    ann_df = pd.read_csv(os.path.join(annotations_path, ann_files[0]))
+    ann_df = pd.read_csv(os.path.join(annotations_path, ann_files[0]), low_memory=False)
     ann_df = ann_df[ann_df.Species == 'B'].copy()
     ann_df['location'] = folder_name
     ann_df['annotationstamp'] = ann_df['Local_Time'].apply(parsedt)
@@ -95,16 +116,33 @@ def process_annotation_csv(folder_name, base_path, annotations_path):
     ann_df = ann_df.merge(sample_rates_df, on='audiofile', how='left')
     ann_df['durationSeconds'] = ann_df[['duration', 'sampleRate']].apply(lambda x: x['duration'] / x['sampleRate'], axis=1)
 
-    ann_df['Begin Time (s)'] = ann_df['Local_Time'].apply(lambda x: parsedt(x, with_decimals=True))
-    ann_df['End Time (s)'] = ann_df['Begin Time (s)'] + ann_df['durationSeconds'].apply(lambda x: timedelta(seconds=x))
+    # Convert Local_Time to datetime with tz awareness
+    ann_df['Begin Time (s)'] = pd.to_datetime(ann_df['Local_Time'], format='mixed', utc=True)
+    ann_df['End Time (s)'] = ann_df['Begin Time (s)'] + pd.to_timedelta(ann_df['durationSeconds'], unit='s')
 
-    timezone = pytz.timezone('Etc/GMT+8')
-    ann_df['filestarttime'] = ann_df['audiofile'].apply(
-        lambda x: datetime.strptime(x.split('.')[1], '%y%m%d%H%M%S').replace(tzinfo=timezone)
-    )
-    ann_df['Begin Time (s)'] = pd.to_datetime(ann_df['Begin Time (s)'], utc=True)
-    ann_df['End Time (s)'] = pd.to_datetime(ann_df['End Time (s)'], utc=True)
-    ann_df['startseconds'] = (ann_df['Begin Time (s)'] - ann_df['filestarttime']).dt.total_seconds()
+
+    # Ensure both datetime columns are timezone-aware
+    ann_df['UTC_Time'] = pd.to_datetime(ann_df['UTC_Time'], format='mixed', utc=True)
+    ann_df['Local_Time'] = pd.to_datetime(ann_df['Local_Time'], format='mixed')  # keep original time zone
+
+    # Parse .wav start time using Local_Time's tzinfo per row
+    def infer_filestarttime(row):
+        try:
+            ts_local_naive = datetime.strptime(row['audiofile'].split('.')[1], '%y%m%d%H%M%S')
+            local_tz = row['Local_Time'].tzinfo  # e.g., UTC-08:00 or UTC-07:00 depending on DST
+            ts_local = ts_local_naive.replace(tzinfo=local_tz)
+            return ts_local.astimezone(pytz.UTC)
+        except Exception as e:
+            print(f"Error parsing filestarttime for row {row.name}: {e}")
+            return pd.NaT
+
+    # Apply and compute startseconds
+    ann_df['filestarttime'] = ann_df.apply(infer_filestarttime, axis=1)
+    ann_df['startseconds'] = (ann_df['UTC_Time'] - ann_df['filestarttime']).dt.total_seconds()
+
+    # Convert Begin and End Time (s) to float seconds since epoch
+    ann_df['Begin Time (s)'] = ann_df['Begin Time (s)'].astype('int64') / 1e9
+    ann_df['End Time (s)'] = ann_df['End Time (s)'].astype('int64') / 1e9
 
     log(f"Processed {folder_name}: {len(ann_df)} valid annotations from {ann_files[0]}")
     compute_coverage(wav_files, ann_df)
