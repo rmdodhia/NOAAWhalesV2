@@ -1,0 +1,725 @@
+2025-06-25 21:46:02,799 Loading annotations from ./DataInput/Beluga/Beluga_annotations.csv
+2025-06-25 21:46:03,575 Loaded 100009 annotation rows
+2025-06-25 21:46:03,591 Sampled 1000 annotation rows (proportion=0.01)
+2025-06-25 21:46:03,604 Processing location 201D: src=./DataInput/Beluga/201D/604536840, dst=./DataInput/Beluga/TEST_SpectrogramsOverlap400ms/201D, 46 wavs
+2025-06-25 21:46:03,912 Processing 604536840.171101113002.wav on GPU (float16): 7199600 samples
+2025-06-25 21:46:03,996 Processed file 604536840.171101113002.wav: 1 positive, 9 negative images generated
+2025-06-25 21:46:04,087 Processing 604536840.171226060002.wav on GPU (float16): 7197312 samples
+2025-06-25 21:46:04,105 Processed file 604536840.171226060002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:04,180 Processing 604536840.180108130002.wav on GPU (float16): 7196032 samples
+2025-06-25 21:46:04,211 Processed file 604536840.180108130002.wav: 3 positive, 16 negative images generated
+2025-06-25 21:46:04,285 Processing 604536840.180109010002.wav on GPU (float16): 7194992 samples
+2025-06-25 21:46:04,310 Processed file 604536840.180109010002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:04,385 Processing 604536840.180119014502.wav on GPU (float16): 7195168 samples
+2025-06-25 21:46:04,410 Processed file 604536840.180119014502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:04,478 Processing 604536840.180119021502.wav on GPU (float16): 7196192 samples
+2025-06-25 21:46:04,495 Processed file 604536840.180119021502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:04,561 Processing 604536840.180119023002.wav on GPU (float16): 7196112 samples
+2025-06-25 21:46:04,576 Processed file 604536840.180119023002.wav: 2 positive, 6 negative images generated
+2025-06-25 21:46:04,641 Processing 604536840.180119031502.wav on GPU (float16): 7198784 samples
+2025-06-25 21:46:04,666 Processed file 604536840.180119031502.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:04,731 Processing 604536840.180128050002.wav on GPU (float16): 7199248 samples
+2025-06-25 21:46:04,756 Processed file 604536840.180128050002.wav: 2 positive, 10 negative images generated
+2025-06-25 21:46:04,823 Processing 604536840.180128051502.wav on GPU (float16): 7196000 samples
+2025-06-25 21:46:04,839 Processed file 604536840.180128051502.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:04,904 Processing 604536840.180128083002.wav on GPU (float16): 7198208 samples
+2025-06-25 21:46:04,920 Processed file 604536840.180128083002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:04,988 Processing 604536840.180128133002.wav on GPU (float16): 7197232 samples
+2025-06-25 21:46:05,007 Processed file 604536840.180128133002.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:05,074 Processing 604536840.180128140002.wav on GPU (float16): 7197072 samples
+2025-06-25 21:46:05,101 Processed file 604536840.180128140002.wav: 3 positive, 10 negative images generated
+2025-06-25 21:46:05,167 Processing 604536840.180128144502.wav on GPU (float16): 7199168 samples
+2025-06-25 21:46:05,189 Processed file 604536840.180128144502.wav: 3 positive, 17 negative images generated
+2025-06-25 21:46:05,250 Processing 604536840.180128150002.wav on GPU (float16): 7196672 samples
+2025-06-25 21:46:05,266 Processed file 604536840.180128150002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:05,331 Processing 604536840.180128153002.wav on GPU (float16): 7198272 samples
+2025-06-25 21:46:05,354 Processed file 604536840.180128153002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:05,418 Processing 604536840.180128154502.wav on GPU (float16): 7196048 samples
+2025-06-25 21:46:05,452 Processed file 604536840.180128154502.wav: 8 positive, 35 negative images generated
+2025-06-25 21:46:05,517 Processing 604536840.180204160002.wav on GPU (float16): 7193632 samples
+2025-06-25 21:46:05,533 Processed file 604536840.180204160002.wav: 2 positive, 10 negative images generated
+2025-06-25 21:46:05,597 Processing 604536840.180209133002.wav on GPU (float16): 7196192 samples
+2025-06-25 21:46:05,620 Processed file 604536840.180209133002.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:05,688 Processing 604536840.180212163002.wav on GPU (float16): 7193088 samples
+2025-06-25 21:46:05,705 Processed file 604536840.180212163002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:05,776 Processing 604536840.180214021502.wav on GPU (float16): 7198624 samples
+2025-06-25 21:46:05,803 Processed file 604536840.180214021502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:05,876 Processing 604536840.180216064502.wav on GPU (float16): 7195760 samples
+2025-06-25 21:46:05,892 Processed file 604536840.180216064502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:05,956 Processing 604536840.180217080002.wav on GPU (float16): 7197888 samples
+2025-06-25 21:46:05,979 Processed file 604536840.180217080002.wav: 6 positive, 16 negative images generated
+2025-06-25 21:46:06,046 Processing 604536840.180218074502.wav on GPU (float16): 7198352 samples
+2025-06-25 21:46:06,064 Processed file 604536840.180218074502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:06,130 Processing 604536840.180221161502.wav on GPU (float16): 7193904 samples
+2025-06-25 21:46:06,147 Processed file 604536840.180221161502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:06,214 Processing 604536840.180221221502.wav on GPU (float16): 7194416 samples
+2025-06-25 21:46:06,232 Processed file 604536840.180221221502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:06,299 Processing 604536840.180221224502.wav on GPU (float16): 7196496 samples
+2025-06-25 21:46:06,323 Processed file 604536840.180221224502.wav: 2 positive, 17 negative images generated
+2025-06-25 21:46:06,390 Processing 604536840.180222194502.wav on GPU (float16): 7199376 samples
+2025-06-25 21:46:06,414 Processed file 604536840.180222194502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:06,479 Processing 604536840.180224060002.wav on GPU (float16): 7197584 samples
+2025-06-25 21:46:06,495 Processed file 604536840.180224060002.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:06,559 Processing 604536840.180224080002.wav on GPU (float16): 7192224 samples
+2025-06-25 21:46:06,577 Processed file 604536840.180224080002.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:06,643 Processing 604536840.180224121502.wav on GPU (float16): 7192736 samples
+2025-06-25 21:46:06,661 Processed file 604536840.180224121502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:06,731 Processing 604536840.180228153002.wav on GPU (float16): 7197600 samples
+2025-06-25 21:46:06,788 Processed file 604536840.180228153002.wav: 11 positive, 56 negative images generated
+2025-06-25 21:46:06,853 Processing 604536840.180306090002.wav on GPU (float16): 7198864 samples
+2025-06-25 21:46:06,877 Processed file 604536840.180306090002.wav: 5 positive, 21 negative images generated
+2025-06-25 21:46:06,940 Processing 604536840.180306100002.wav on GPU (float16): 7198176 samples
+2025-06-25 21:46:06,957 Processed file 604536840.180306100002.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:07,021 Processing 604536840.180306103002.wav on GPU (float16): 7197440 samples
+2025-06-25 21:46:07,043 Processed file 604536840.180306103002.wav: 3 positive, 17 negative images generated
+2025-06-25 21:46:07,108 Processing 604536840.180306110002.wav on GPU (float16): 7196592 samples
+2025-06-25 21:46:07,131 Processed file 604536840.180306110002.wav: 2 positive, 6 negative images generated
+2025-06-25 21:46:07,196 Processing 604536840.180311033002.wav on GPU (float16): 7197360 samples
+2025-06-25 21:46:07,219 Processed file 604536840.180311033002.wav: 2 positive, 10 negative images generated
+2025-06-25 21:46:07,283 Processing 604536840.180311034502.wav on GPU (float16): 7195360 samples
+2025-06-25 21:46:07,309 Processed file 604536840.180311034502.wav: 4 positive, 25 negative images generated
+2025-06-25 21:46:07,376 Processing 604536840.180311113002.wav on GPU (float16): 7192432 samples
+2025-06-25 21:46:07,397 Processed file 604536840.180311113002.wav: 3 positive, 13 negative images generated
+2025-06-25 21:46:07,462 Processing 604536840.180311120002.wav on GPU (float16): 7199536 samples
+2025-06-25 21:46:07,478 Processed file 604536840.180311120002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:07,542 Processing 604536840.180311134502.wav on GPU (float16): 7199408 samples
+2025-06-25 21:46:07,574 Processed file 604536840.180311134502.wav: 5 positive, 22 negative images generated
+2025-06-25 21:46:07,639 Processing 604536840.180311151502.wav on GPU (float16): 7196736 samples
+2025-06-25 21:46:07,655 Processed file 604536840.180311151502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:07,718 Processing 604536840.180311153002.wav on GPU (float16): 7199696 samples
+2025-06-25 21:46:07,742 Processed file 604536840.180311153002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:07,805 Processing 604536840.180311161502.wav on GPU (float16): 7198992 samples
+2025-06-25 21:46:07,833 Processed file 604536840.180311161502.wav: 2 positive, 18 negative images generated
+2025-06-25 21:46:07,896 Processing 604536840.180324134502.wav on GPU (float16): 7197184 samples
+2025-06-25 21:46:07,913 Processed file 604536840.180324134502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:07,977 Processing 604536840.180401074502.wav on GPU (float16): 7195472 samples
+2025-06-25 21:46:07,994 Processed file 604536840.180401074502.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:08,006 Saved labels to ./DataInput/Beluga/201d_beluga_overlap400ms_spectrogram_labels.csv
+2025-06-25 21:46:08,025 Processing location 206D: src=./DataInput/Beluga/206D/205D/469782545, dst=./DataInput/Beluga/TEST_SpectrogramsOverlap400ms/206D, 250 wavs
+2025-06-25 21:46:08,089 Processing 469782545.171002230002.wav on GPU (float16): 7199728 samples
+2025-06-25 21:46:08,112 Processed file 469782545.171002230002.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:08,175 Processing 469782545.171103000002.wav on GPU (float16): 7197216 samples
+2025-06-25 21:46:08,218 Processed file 469782545.171103000002.wav: 10 positive, 46 negative images generated
+2025-06-25 21:46:08,282 Processing 469782545.171103001502.wav on GPU (float16): 7199728 samples
+2025-06-25 21:46:08,333 Processed file 469782545.171103001502.wav: 11 positive, 50 negative images generated
+2025-06-25 21:46:08,398 Processing 469782545.171103010002.wav on GPU (float16): 7197792 samples
+2025-06-25 21:46:08,413 Processed file 469782545.171103010002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:08,476 Processing 469782545.171105011502.wav on GPU (float16): 7198976 samples
+2025-06-25 21:46:08,496 Processed file 469782545.171105011502.wav: 3 positive, 10 negative images generated
+2025-06-25 21:46:08,560 Processing 469782545.171113090002.wav on GPU (float16): 7198144 samples
+2025-06-25 21:46:08,586 Processed file 469782545.171113090002.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:08,650 Processing 469782545.171116110002.wav on GPU (float16): 7199248 samples
+2025-06-25 21:46:08,673 Processed file 469782545.171116110002.wav: 2 positive, 19 negative images generated
+2025-06-25 21:46:08,736 Processing 469782545.171117004502.wav on GPU (float16): 7197568 samples
+2025-06-25 21:46:08,753 Processed file 469782545.171117004502.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:08,817 Processing 469782545.171117150002.wav on GPU (float16): 7198752 samples
+2025-06-25 21:46:08,833 Processed file 469782545.171117150002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:08,895 Processing 469782545.171117180002.wav on GPU (float16): 7198640 samples
+2025-06-25 21:46:08,911 Processed file 469782545.171117180002.wav: 2 positive, 8 negative images generated
+2025-06-25 21:46:08,975 Processing 469782545.171118023002.wav on GPU (float16): 7198944 samples
+2025-06-25 21:46:08,991 Processed file 469782545.171118023002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:09,056 Processing 469782545.171121021502.wav on GPU (float16): 7194480 samples
+2025-06-25 21:46:09,075 Processed file 469782545.171121021502.wav: 2 positive, 10 negative images generated
+2025-06-25 21:46:09,138 Processing 469782545.171121034502.wav on GPU (float16): 7196272 samples
+2025-06-25 21:46:09,154 Processed file 469782545.171121034502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:09,217 Processing 469782545.171121121502.wav on GPU (float16): 7196272 samples
+2025-06-25 21:46:09,231 Processed file 469782545.171121121502.wav: 2 positive, 6 negative images generated
+2025-06-25 21:46:09,296 Processing 469782545.171123101502.wav on GPU (float16): 7197664 samples
+2025-06-25 21:46:09,312 Processed file 469782545.171123101502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:09,379 Processing 469782545.171129140002.wav on GPU (float16): 7199280 samples
+2025-06-25 21:46:09,396 Processed file 469782545.171129140002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:09,464 Processing 469782545.171129144502.wav on GPU (float16): 7197584 samples
+2025-06-25 21:46:09,481 Processed file 469782545.171129144502.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:09,548 Processing 469782545.171129171502.wav on GPU (float16): 7199504 samples
+2025-06-25 21:46:09,577 Processed file 469782545.171129171502.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:09,642 Processing 469782545.171130080002.wav on GPU (float16): 7197472 samples
+2025-06-25 21:46:09,658 Processed file 469782545.171130080002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:09,721 Processing 469782545.171203183002.wav on GPU (float16): 7197328 samples
+2025-06-25 21:46:09,741 Processed file 469782545.171203183002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:09,802 Processing 469782545.171203193002.wav on GPU (float16): 7198720 samples
+2025-06-25 21:46:09,819 Processed file 469782545.171203193002.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:09,882 Processing 469782545.171208161502.wav on GPU (float16): 7199520 samples
+2025-06-25 21:46:09,898 Processed file 469782545.171208161502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:09,961 Processing 469782545.171213213002.wav on GPU (float16): 7195280 samples
+2025-06-25 21:46:09,981 Processed file 469782545.171213213002.wav: 3 positive, 17 negative images generated
+2025-06-25 21:46:10,044 Processing 469782545.171213214502.wav on GPU (float16): 7198544 samples
+2025-06-25 21:46:10,095 Processed file 469782545.171213214502.wav: 16 positive, 57 negative images generated
+2025-06-25 21:46:10,160 Processing 469782545.171213220002.wav on GPU (float16): 7195712 samples
+2025-06-25 21:46:10,196 Processed file 469782545.171213220002.wav: 7 positive, 36 negative images generated
+2025-06-25 21:46:10,261 Processing 469782545.171214000002.wav on GPU (float16): 7197680 samples
+2025-06-25 21:46:10,279 Processed file 469782545.171214000002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:10,342 Processing 469782545.171214004502.wav on GPU (float16): 7195680 samples
+2025-06-25 21:46:10,356 Processed file 469782545.171214004502.wav: 1 positive, 6 negative images generated
+2025-06-25 21:46:10,419 Processing 469782545.171227190002.wav on GPU (float16): 7197856 samples
+2025-06-25 21:46:10,442 Processed file 469782545.171227190002.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:10,504 Processing 469782545.180310081502.wav on GPU (float16): 7199280 samples
+2025-06-25 21:46:10,529 Processed file 469782545.180310081502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:10,592 Processing 469782545.180313114502.wav on GPU (float16): 7198176 samples
+2025-06-25 21:46:10,609 Processed file 469782545.180313114502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:10,673 Processing 469782545.180314223002.wav on GPU (float16): 7198608 samples
+2025-06-25 21:46:10,689 Processed file 469782545.180314223002.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:10,753 Processing 469782545.180322231502.wav on GPU (float16): 7192480 samples
+2025-06-25 21:46:10,774 Processed file 469782545.180322231502.wav: 2 positive, 19 negative images generated
+2025-06-25 21:46:10,837 Processing 469782545.180323021502.wav on GPU (float16): 7198944 samples
+2025-06-25 21:46:10,854 Processed file 469782545.180323021502.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:10,917 Processing 469782545.180323050002.wav on GPU (float16): 7192224 samples
+2025-06-25 21:46:10,933 Processed file 469782545.180323050002.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:10,996 Processing 469782545.180323054502.wav on GPU (float16): 7199568 samples
+2025-06-25 21:46:11,020 Processed file 469782545.180323054502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:11,084 Processing 469782545.180323063002.wav on GPU (float16): 7197936 samples
+2025-06-25 21:46:11,110 Processed file 469782545.180323063002.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:11,174 Processing 469782545.180323064502.wav on GPU (float16): 7194048 samples
+2025-06-25 21:46:11,190 Processed file 469782545.180323064502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:11,251 Processing 469782545.180323074502.wav on GPU (float16): 7197280 samples
+2025-06-25 21:46:11,267 Processed file 469782545.180323074502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:11,330 Processing 469782545.180323154502.wav on GPU (float16): 7193376 samples
+2025-06-25 21:46:11,352 Processed file 469782545.180323154502.wav: 2 positive, 17 negative images generated
+2025-06-25 21:46:11,416 Processing 469782545.180323163002.wav on GPU (float16): 7194448 samples
+2025-06-25 21:46:11,432 Processed file 469782545.180323163002.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:11,496 Processing 469782545.180324073002.wav on GPU (float16): 7194544 samples
+2025-06-25 21:46:11,511 Processed file 469782545.180324073002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:11,573 Processing 469782545.180327093002.wav on GPU (float16): 7196624 samples
+2025-06-25 21:46:11,594 Processed file 469782545.180327093002.wav: 2 positive, 18 negative images generated
+2025-06-25 21:46:11,658 Processing 469782545.180327103002.wav on GPU (float16): 7198880 samples
+2025-06-25 21:46:11,678 Processed file 469782545.180327103002.wav: 3 positive, 16 negative images generated
+2025-06-25 21:46:11,742 Processing 469782545.180330160002.wav on GPU (float16): 7199200 samples
+2025-06-25 21:46:11,758 Processed file 469782545.180330160002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:11,820 Processing 469782545.180407050002.wav on GPU (float16): 7199600 samples
+2025-06-25 21:46:11,835 Processed file 469782545.180407050002.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:11,898 Processing 469782545.180407061502.wav on GPU (float16): 7199680 samples
+2025-06-25 21:46:11,915 Processed file 469782545.180407061502.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:11,978 Processing 469782545.180408164502.wav on GPU (float16): 7197616 samples
+2025-06-25 21:46:11,996 Processed file 469782545.180408164502.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:12,060 Processing 469782545.180411074502.wav on GPU (float16): 7197520 samples
+2025-06-25 21:46:12,076 Processed file 469782545.180411074502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:12,138 Processing 469782545.180411204502.wav on GPU (float16): 7194080 samples
+2025-06-25 21:46:12,154 Processed file 469782545.180411204502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:12,219 Processing 469782545.180412120002.wav on GPU (float16): 7198144 samples
+2025-06-25 21:46:12,237 Processed file 469782545.180412120002.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:12,300 Processing 469782545.180419023002.wav on GPU (float16): 7198272 samples
+2025-06-25 21:46:12,320 Processed file 469782545.180419023002.wav: 2 positive, 16 negative images generated
+2025-06-25 21:46:12,382 Processing 469782545.180419030002.wav on GPU (float16): 7196784 samples
+2025-06-25 21:46:12,403 Processed file 469782545.180419030002.wav: 3 positive, 16 negative images generated
+2025-06-25 21:46:12,466 Processing 469782545.180420121502.wav on GPU (float16): 7199200 samples
+2025-06-25 21:46:12,490 Processed file 469782545.180420121502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:12,553 Processing 469782545.180420130002.wav on GPU (float16): 7198576 samples
+2025-06-25 21:46:12,569 Processed file 469782545.180420130002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:12,634 Processing 469782545.180421033002.wav on GPU (float16): 7199360 samples
+2025-06-25 21:46:12,655 Processed file 469782545.180421033002.wav: 2 positive, 17 negative images generated
+2025-06-25 21:46:12,719 Processing 469782545.180421040002.wav on GPU (float16): 7198048 samples
+2025-06-25 21:46:12,740 Processed file 469782545.180421040002.wav: 2 positive, 18 negative images generated
+2025-06-25 21:46:12,805 Processing 469782545.180421041502.wav on GPU (float16): 7197824 samples
+2025-06-25 21:46:12,826 Processed file 469782545.180421041502.wav: 3 positive, 16 negative images generated
+2025-06-25 21:46:12,891 Processing 469782545.180421043002.wav on GPU (float16): 7198304 samples
+2025-06-25 21:46:12,936 Processed file 469782545.180421043002.wav: 13 positive, 48 negative images generated
+2025-06-25 21:46:13,000 Processing 469782545.180421044502.wav on GPU (float16): 7198880 samples
+2025-06-25 21:46:13,021 Processed file 469782545.180421044502.wav: 2 positive, 16 negative images generated
+2025-06-25 21:46:13,086 Processing 469782545.180421051502.wav on GPU (float16): 7199152 samples
+2025-06-25 21:46:13,110 Processed file 469782545.180421051502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:13,173 Processing 469782545.180422053002.wav on GPU (float16): 7197328 samples
+2025-06-25 21:46:13,202 Processed file 469782545.180422053002.wav: 5 positive, 30 negative images generated
+2025-06-25 21:46:13,266 Processing 469782545.180422054502.wav on GPU (float16): 7195840 samples
+2025-06-25 21:46:13,282 Processed file 469782545.180422054502.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:13,346 Processing 469782545.180422193002.wav on GPU (float16): 7196336 samples
+2025-06-25 21:46:13,362 Processed file 469782545.180422193002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:13,425 Processing 469782545.180423054502.wav on GPU (float16): 7196864 samples
+2025-06-25 21:46:13,466 Processed file 469782545.180423054502.wav: 6 positive, 47 negative images generated
+2025-06-25 21:46:13,530 Processing 469782545.180423060002.wav on GPU (float16): 7197200 samples
+2025-06-25 21:46:13,547 Processed file 469782545.180423060002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:13,610 Processing 469782545.180423061502.wav on GPU (float16): 7197328 samples
+2025-06-25 21:46:13,626 Processed file 469782545.180423061502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:13,689 Processing 469782545.180423070002.wav on GPU (float16): 7196784 samples
+2025-06-25 21:46:13,705 Processed file 469782545.180423070002.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:13,768 Processing 469782545.180426084502.wav on GPU (float16): 7196896 samples
+2025-06-25 21:46:13,792 Processed file 469782545.180426084502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:13,855 Processing 469782545.180426131502.wav on GPU (float16): 7198896 samples
+2025-06-25 21:46:13,878 Processed file 469782545.180426131502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:13,942 Processing 469782545.180427000002.wav on GPU (float16): 7195104 samples
+2025-06-25 21:46:13,958 Processed file 469782545.180427000002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:14,022 Processing 469782545.180427001502.wav on GPU (float16): 7195904 samples
+2025-06-25 21:46:14,038 Processed file 469782545.180427001502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:14,103 Processing 469782545.180427173002.wav on GPU (float16): 7197648 samples
+2025-06-25 21:46:14,127 Processed file 469782545.180427173002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:14,190 Processing 469782545.180427231502.wav on GPU (float16): 7196272 samples
+2025-06-25 21:46:14,208 Processed file 469782545.180427231502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:14,271 Processing 469782545.180502021502.wav on GPU (float16): 7198032 samples
+2025-06-25 21:46:14,288 Processed file 469782545.180502021502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:14,351 Processing 469782545.180502133002.wav on GPU (float16): 7197008 samples
+2025-06-25 21:46:14,372 Processed file 469782545.180502133002.wav: 2 positive, 17 negative images generated
+2025-06-25 21:46:14,437 Processing 469782545.180502134502.wav on GPU (float16): 7197200 samples
+2025-06-25 21:46:14,469 Processed file 469782545.180502134502.wav: 5 positive, 31 negative images generated
+2025-06-25 21:46:14,532 Processing 469782545.180502140002.wav on GPU (float16): 7197728 samples
+2025-06-25 21:46:14,547 Processed file 469782545.180502140002.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:14,610 Processing 469782545.180502153002.wav on GPU (float16): 7197744 samples
+2025-06-25 21:46:14,626 Processed file 469782545.180502153002.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:14,689 Processing 469782545.180502231502.wav on GPU (float16): 7199504 samples
+2025-06-25 21:46:14,706 Processed file 469782545.180502231502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:14,770 Processing 469782545.180503003002.wav on GPU (float16): 7197840 samples
+2025-06-25 21:46:14,785 Processed file 469782545.180503003002.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:14,848 Processing 469782545.180503040002.wav on GPU (float16): 7196688 samples
+2025-06-25 21:46:14,864 Processed file 469782545.180503040002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:14,926 Processing 469782545.180503140002.wav on GPU (float16): 7198480 samples
+2025-06-25 21:46:14,943 Processed file 469782545.180503140002.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:15,005 Processing 469782545.180503151502.wav on GPU (float16): 7198320 samples
+2025-06-25 21:46:15,021 Processed file 469782545.180503151502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:15,083 Processing 469782545.180503160002.wav on GPU (float16): 7197296 samples
+2025-06-25 21:46:15,103 Processed file 469782545.180503160002.wav: 3 positive, 16 negative images generated
+2025-06-25 21:46:15,168 Processing 469782545.180504220002.wav on GPU (float16): 7197632 samples
+2025-06-25 21:46:15,185 Processed file 469782545.180504220002.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:15,249 Processing 469782545.180505050002.wav on GPU (float16): 7199696 samples
+2025-06-25 21:46:15,270 Processed file 469782545.180505050002.wav: 4 positive, 15 negative images generated
+2025-06-25 21:46:15,333 Processing 469782545.180505051502.wav on GPU (float16): 7195712 samples
+2025-06-25 21:46:15,349 Processed file 469782545.180505051502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:15,411 Processing 469782545.180505053002.wav on GPU (float16): 7197504 samples
+2025-06-25 21:46:15,433 Processed file 469782545.180505053002.wav: 3 positive, 17 negative images generated
+2025-06-25 21:46:15,496 Processing 469782545.180505061502.wav on GPU (float16): 7199568 samples
+2025-06-25 21:46:15,512 Processed file 469782545.180505061502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:15,574 Processing 469782545.180505150002.wav on GPU (float16): 7195888 samples
+2025-06-25 21:46:15,590 Processed file 469782545.180505150002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:15,652 Processing 469782545.180505154502.wav on GPU (float16): 7198624 samples
+2025-06-25 21:46:15,668 Processed file 469782545.180505154502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:15,732 Processing 469782545.180505181502.wav on GPU (float16): 7197360 samples
+2025-06-25 21:46:15,753 Processed file 469782545.180505181502.wav: 2 positive, 19 negative images generated
+2025-06-25 21:46:15,816 Processing 469782545.180505184502.wav on GPU (float16): 7198912 samples
+2025-06-25 21:46:15,831 Processed file 469782545.180505184502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:15,894 Processing 469782545.180506010002.wav on GPU (float16): 7197008 samples
+2025-06-25 21:46:15,925 Processed file 469782545.180506010002.wav: 5 positive, 30 negative images generated
+2025-06-25 21:46:15,990 Processing 469782545.180506011502.wav on GPU (float16): 7198512 samples
+2025-06-25 21:46:16,019 Processed file 469782545.180506011502.wav: 8 positive, 25 negative images generated
+2025-06-25 21:46:16,084 Processing 469782545.180506013002.wav on GPU (float16): 7197824 samples
+2025-06-25 21:46:16,122 Processed file 469782545.180506013002.wav: 9 positive, 36 negative images generated
+2025-06-25 21:46:16,188 Processing 469782545.180506014502.wav on GPU (float16): 7199648 samples
+2025-06-25 21:46:16,230 Processed file 469782545.180506014502.wav: 6 positive, 36 negative images generated
+2025-06-25 21:46:16,294 Processing 469782545.180506020002.wav on GPU (float16): 7196752 samples
+2025-06-25 21:46:16,321 Processed file 469782545.180506020002.wav: 3 positive, 16 negative images generated
+2025-06-25 21:46:16,384 Processing 469782545.180506023002.wav on GPU (float16): 7197280 samples
+2025-06-25 21:46:16,417 Processed file 469782545.180506023002.wav: 5 positive, 22 negative images generated
+2025-06-25 21:46:16,480 Processing 469782545.180506024502.wav on GPU (float16): 7198448 samples
+2025-06-25 21:46:16,504 Processed file 469782545.180506024502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:16,567 Processing 469782545.180506030002.wav on GPU (float16): 7198800 samples
+2025-06-25 21:46:16,592 Processed file 469782545.180506030002.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:16,655 Processing 469782545.180506033002.wav on GPU (float16): 7198816 samples
+2025-06-25 21:46:16,684 Processed file 469782545.180506033002.wav: 3 positive, 16 negative images generated
+2025-06-25 21:46:16,746 Processing 469782545.180506034502.wav on GPU (float16): 7198432 samples
+2025-06-25 21:46:16,770 Processed file 469782545.180506034502.wav: 6 positive, 21 negative images generated
+2025-06-25 21:46:16,834 Processing 469782545.180506041502.wav on GPU (float16): 7199200 samples
+2025-06-25 21:46:16,851 Processed file 469782545.180506041502.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:16,914 Processing 469782545.180506043002.wav on GPU (float16): 7197696 samples
+2025-06-25 21:46:16,930 Processed file 469782545.180506043002.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:16,994 Processing 469782545.180506061502.wav on GPU (float16): 7197312 samples
+2025-06-25 21:46:17,023 Processed file 469782545.180506061502.wav: 6 positive, 30 negative images generated
+2025-06-25 21:46:17,086 Processing 469782545.180506063002.wav on GPU (float16): 7198320 samples
+2025-06-25 21:46:17,112 Processed file 469782545.180506063002.wav: 6 positive, 23 negative images generated
+2025-06-25 21:46:17,175 Processing 469782545.180506064502.wav on GPU (float16): 7197920 samples
+2025-06-25 21:46:17,199 Processed file 469782545.180506064502.wav: 4 positive, 24 negative images generated
+2025-06-25 21:46:17,262 Processing 469782545.180506070002.wav on GPU (float16): 7199392 samples
+2025-06-25 21:46:17,282 Processed file 469782545.180506070002.wav: 3 positive, 16 negative images generated
+2025-06-25 21:46:17,344 Processing 469782545.180506071502.wav on GPU (float16): 7196976 samples
+2025-06-25 21:46:17,373 Processed file 469782545.180506071502.wav: 4 positive, 31 negative images generated
+2025-06-25 21:46:17,437 Processing 469782545.180506073002.wav on GPU (float16): 7199504 samples
+2025-06-25 21:46:17,471 Processed file 469782545.180506073002.wav: 9 positive, 36 negative images generated
+2025-06-25 21:46:17,534 Processing 469782545.180506074502.wav on GPU (float16): 7198192 samples
+2025-06-25 21:46:17,554 Processed file 469782545.180506074502.wav: 3 positive, 16 negative images generated
+2025-06-25 21:46:17,617 Processing 469782545.180506080002.wav on GPU (float16): 7199008 samples
+2025-06-25 21:46:17,633 Processed file 469782545.180506080002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:17,697 Processing 469782545.180506081502.wav on GPU (float16): 7197568 samples
+2025-06-25 21:46:17,719 Processed file 469782545.180506081502.wav: 2 positive, 18 negative images generated
+2025-06-25 21:46:17,782 Processing 469782545.180506083002.wav on GPU (float16): 7198000 samples
+2025-06-25 21:46:17,827 Processed file 469782545.180506083002.wav: 12 positive, 52 negative images generated
+2025-06-25 21:46:17,890 Processing 469782545.180506084502.wav on GPU (float16): 7199488 samples
+2025-06-25 21:46:17,931 Processed file 469782545.180506084502.wav: 12 positive, 45 negative images generated
+2025-06-25 21:46:17,994 Processing 469782545.180506091502.wav on GPU (float16): 7199728 samples
+2025-06-25 21:46:18,012 Processed file 469782545.180506091502.wav: 3 positive, 12 negative images generated
+2025-06-25 21:46:18,078 Processing 469782545.180506093002.wav on GPU (float16): 7197056 samples
+2025-06-25 21:46:18,095 Processed file 469782545.180506093002.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:18,157 Processing 469782545.180506094502.wav on GPU (float16): 7197584 samples
+2025-06-25 21:46:18,179 Processed file 469782545.180506094502.wav: 2 positive, 19 negative images generated
+2025-06-25 21:46:18,244 Processing 469782545.180506100002.wav on GPU (float16): 7197472 samples
+2025-06-25 21:46:18,260 Processed file 469782545.180506100002.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:18,323 Processing 469782545.180506114502.wav on GPU (float16): 7197648 samples
+2025-06-25 21:46:18,339 Processed file 469782545.180506114502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:18,403 Processing 469782545.180506123002.wav on GPU (float16): 7199520 samples
+2025-06-25 21:46:18,423 Processed file 469782545.180506123002.wav: 4 positive, 15 negative images generated
+2025-06-25 21:46:18,487 Processing 469782545.180506131502.wav on GPU (float16): 7197504 samples
+2025-06-25 21:46:18,503 Processed file 469782545.180506131502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:18,568 Processing 469782545.180506133002.wav on GPU (float16): 7197968 samples
+2025-06-25 21:46:18,587 Processed file 469782545.180506133002.wav: 2 positive, 16 negative images generated
+2025-06-25 21:46:18,649 Processing 469782545.180506134502.wav on GPU (float16): 7198032 samples
+2025-06-25 21:46:18,674 Processed file 469782545.180506134502.wav: 5 positive, 23 negative images generated
+2025-06-25 21:46:18,736 Processing 469782545.180506144502.wav on GPU (float16): 7198400 samples
+2025-06-25 21:46:18,752 Processed file 469782545.180506144502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:18,816 Processing 469782545.180506154502.wav on GPU (float16): 7199248 samples
+2025-06-25 21:46:18,840 Processed file 469782545.180506154502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:18,902 Processing 469782545.180506160002.wav on GPU (float16): 7198256 samples
+2025-06-25 21:46:18,917 Processed file 469782545.180506160002.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:18,979 Processing 469782545.180506161502.wav on GPU (float16): 7197984 samples
+2025-06-25 21:46:18,999 Processed file 469782545.180506161502.wav: 4 positive, 15 negative images generated
+2025-06-25 21:46:19,061 Processing 469782545.180506163002.wav on GPU (float16): 7196848 samples
+2025-06-25 21:46:19,083 Processed file 469782545.180506163002.wav: 3 positive, 17 negative images generated
+2025-06-25 21:46:19,145 Processing 469782545.180506164502.wav on GPU (float16): 7197664 samples
+2025-06-25 21:46:19,161 Processed file 469782545.180506164502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:19,224 Processing 469782545.180506170002.wav on GPU (float16): 7199632 samples
+2025-06-25 21:46:19,240 Processed file 469782545.180506170002.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:19,307 Processing 469782545.180506171502.wav on GPU (float16): 7197200 samples
+2025-06-25 21:46:19,323 Processed file 469782545.180506171502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:19,388 Processing 469782545.180506173002.wav on GPU (float16): 7197776 samples
+2025-06-25 21:46:19,405 Processed file 469782545.180506173002.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:19,470 Processing 469782545.180506174502.wav on GPU (float16): 7198112 samples
+2025-06-25 21:46:19,494 Processed file 469782545.180506174502.wav: 2 positive, 18 negative images generated
+2025-06-25 21:46:19,558 Processing 469782545.180506180002.wav on GPU (float16): 7199312 samples
+2025-06-25 21:46:19,580 Processed file 469782545.180506180002.wav: 4 positive, 15 negative images generated
+2025-06-25 21:46:19,644 Processing 469782545.180506181502.wav on GPU (float16): 7198832 samples
+2025-06-25 21:46:19,663 Processed file 469782545.180506181502.wav: 3 positive, 10 negative images generated
+2025-06-25 21:46:19,727 Processing 469782545.180506183002.wav on GPU (float16): 7197264 samples
+2025-06-25 21:46:19,743 Processed file 469782545.180506183002.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:19,806 Processing 469782545.180506184502.wav on GPU (float16): 7198656 samples
+2025-06-25 21:46:19,822 Processed file 469782545.180506184502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:19,885 Processing 469782545.180506191502.wav on GPU (float16): 7198416 samples
+2025-06-25 21:46:19,901 Processed file 469782545.180506191502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:19,964 Processing 469782545.180506200002.wav on GPU (float16): 7199056 samples
+2025-06-25 21:46:19,985 Processed file 469782545.180506200002.wav: 2 positive, 17 negative images generated
+2025-06-25 21:46:20,049 Processing 469782545.180506201502.wav on GPU (float16): 7197536 samples
+2025-06-25 21:46:20,065 Processed file 469782545.180506201502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:20,130 Processing 469782545.180506203002.wav on GPU (float16): 7197808 samples
+2025-06-25 21:46:20,155 Processed file 469782545.180506203002.wav: 4 positive, 23 negative images generated
+2025-06-25 21:46:20,219 Processing 469782545.180506210002.wav on GPU (float16): 7198368 samples
+2025-06-25 21:46:20,235 Processed file 469782545.180506210002.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:20,299 Processing 469782545.180506211502.wav on GPU (float16): 7198352 samples
+2025-06-25 21:46:20,314 Processed file 469782545.180506211502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:20,377 Processing 469782545.180506213002.wav on GPU (float16): 7197920 samples
+2025-06-25 21:46:20,393 Processed file 469782545.180506213002.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:20,455 Processing 469782545.180507001502.wav on GPU (float16): 7198992 samples
+2025-06-25 21:46:20,470 Processed file 469782545.180507001502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:20,533 Processing 469782545.180507021502.wav on GPU (float16): 7196976 samples
+2025-06-25 21:46:20,553 Processed file 469782545.180507021502.wav: 3 positive, 16 negative images generated
+2025-06-25 21:46:20,616 Processing 469782545.180507023002.wav on GPU (float16): 7199024 samples
+2025-06-25 21:46:20,636 Processed file 469782545.180507023002.wav: 2 positive, 17 negative images generated
+2025-06-25 21:46:20,698 Processing 469782545.180507033002.wav on GPU (float16): 7199472 samples
+2025-06-25 21:46:20,720 Processed file 469782545.180507033002.wav: 4 positive, 20 negative images generated
+2025-06-25 21:46:20,784 Processing 469782545.180507034502.wav on GPU (float16): 7196832 samples
+2025-06-25 21:46:20,809 Processed file 469782545.180507034502.wav: 4 positive, 22 negative images generated
+2025-06-25 21:46:20,874 Processing 469782545.180507040002.wav on GPU (float16): 7197664 samples
+2025-06-25 21:46:20,914 Processed file 469782545.180507040002.wav: 14 positive, 40 negative images generated
+2025-06-25 21:46:20,980 Processing 469782545.180507041502.wav on GPU (float16): 7198800 samples
+2025-06-25 21:46:21,010 Processed file 469782545.180507041502.wav: 4 positive, 28 negative images generated
+2025-06-25 21:46:21,074 Processing 469782545.180507043002.wav on GPU (float16): 7199456 samples
+2025-06-25 21:46:21,090 Processed file 469782545.180507043002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:21,153 Processing 469782545.180507044502.wav on GPU (float16): 7196896 samples
+2025-06-25 21:46:21,194 Processed file 469782545.180507044502.wav: 9 positive, 46 negative images generated
+2025-06-25 21:46:21,258 Processing 469782545.180507050002.wav on GPU (float16): 7197936 samples
+2025-06-25 21:46:21,279 Processed file 469782545.180507050002.wav: 4 positive, 15 negative images generated
+2025-06-25 21:46:21,341 Processing 469782545.180507051502.wav on GPU (float16): 7198928 samples
+2025-06-25 21:46:21,357 Processed file 469782545.180507051502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:21,420 Processing 469782545.180507053002.wav on GPU (float16): 7196560 samples
+2025-06-25 21:46:21,442 Processed file 469782545.180507053002.wav: 2 positive, 18 negative images generated
+2025-06-25 21:46:21,505 Processing 469782545.180507054502.wav on GPU (float16): 7196160 samples
+2025-06-25 21:46:21,531 Processed file 469782545.180507054502.wav: 7 positive, 21 negative images generated
+2025-06-25 21:46:21,594 Processing 469782545.180507060002.wav on GPU (float16): 7199184 samples
+2025-06-25 21:46:21,628 Processed file 469782545.180507060002.wav: 10 positive, 35 negative images generated
+2025-06-25 21:46:21,692 Processing 469782545.180507061502.wav on GPU (float16): 7196448 samples
+2025-06-25 21:46:21,717 Processed file 469782545.180507061502.wav: 4 positive, 23 negative images generated
+2025-06-25 21:46:21,780 Processing 469782545.180507063002.wav on GPU (float16): 7199088 samples
+2025-06-25 21:46:21,815 Processed file 469782545.180507063002.wav: 6 positive, 39 negative images generated
+2025-06-25 21:46:21,878 Processing 469782545.180507064502.wav on GPU (float16): 7197312 samples
+2025-06-25 21:46:21,923 Processed file 469782545.180507064502.wav: 11 positive, 51 negative images generated
+2025-06-25 21:46:21,986 Processing 469782545.180507070002.wav on GPU (float16): 7196592 samples
+2025-06-25 21:46:22,026 Processed file 469782545.180507070002.wav: 7 positive, 46 negative images generated
+2025-06-25 21:46:22,089 Processing 469782545.180507110002.wav on GPU (float16): 7198800 samples
+2025-06-25 21:46:22,104 Processed file 469782545.180507110002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:22,168 Processing 469782545.180507114502.wav on GPU (float16): 7198384 samples
+2025-06-25 21:46:22,187 Processed file 469782545.180507114502.wav: 3 positive, 12 negative images generated
+2025-06-25 21:46:22,250 Processing 469782545.180507160002.wav on GPU (float16): 7197808 samples
+2025-06-25 21:46:22,270 Processed file 469782545.180507160002.wav: 4 positive, 15 negative images generated
+2025-06-25 21:46:22,333 Processing 469782545.180507163002.wav on GPU (float16): 7199376 samples
+2025-06-25 21:46:22,348 Processed file 469782545.180507163002.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:22,414 Processing 469782545.180507171502.wav on GPU (float16): 7199328 samples
+2025-06-25 21:46:22,437 Processed file 469782545.180507171502.wav: 2 positive, 17 negative images generated
+2025-06-25 21:46:22,502 Processing 469782545.180507173002.wav on GPU (float16): 7199040 samples
+2025-06-25 21:46:22,518 Processed file 469782545.180507173002.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:22,583 Processing 469782545.180507180002.wav on GPU (float16): 7196272 samples
+2025-06-25 21:46:22,614 Processed file 469782545.180507180002.wav: 5 positive, 32 negative images generated
+2025-06-25 21:46:22,679 Processing 469782545.180507183002.wav on GPU (float16): 7197440 samples
+2025-06-25 21:46:22,695 Processed file 469782545.180507183002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:22,760 Processing 469782545.180507184502.wav on GPU (float16): 7196896 samples
+2025-06-25 21:46:22,787 Processed file 469782545.180507184502.wav: 3 positive, 15 negative images generated
+2025-06-25 21:46:22,850 Processing 469782545.180507190002.wav on GPU (float16): 7196560 samples
+2025-06-25 21:46:22,872 Processed file 469782545.180507190002.wav: 3 positive, 16 negative images generated
+2025-06-25 21:46:22,936 Processing 469782545.180507191502.wav on GPU (float16): 7199136 samples
+2025-06-25 21:46:22,960 Processed file 469782545.180507191502.wav: 4 positive, 19 negative images generated
+2025-06-25 21:46:23,024 Processing 469782545.180507194502.wav on GPU (float16): 7198656 samples
+2025-06-25 21:46:23,072 Processed file 469782545.180507194502.wav: 10 positive, 44 negative images generated
+2025-06-25 21:46:23,136 Processing 469782545.180507200002.wav on GPU (float16): 7199696 samples
+2025-06-25 21:46:23,167 Processed file 469782545.180507200002.wav: 8 positive, 30 negative images generated
+2025-06-25 21:46:23,230 Processing 469782545.180507201502.wav on GPU (float16): 7197408 samples
+2025-06-25 21:46:23,264 Processed file 469782545.180507201502.wav: 7 positive, 37 negative images generated
+2025-06-25 21:46:23,328 Processing 469782545.180507203002.wav on GPU (float16): 7199392 samples
+2025-06-25 21:46:23,376 Processed file 469782545.180507203002.wav: 11 positive, 58 negative images generated
+2025-06-25 21:46:23,440 Processing 469782545.180507204502.wav on GPU (float16): 7197328 samples
+2025-06-25 21:46:23,479 Processed file 469782545.180507204502.wav: 9 positive, 41 negative images generated
+2025-06-25 21:46:23,542 Processing 469782545.180507210002.wav on GPU (float16): 7197744 samples
+2025-06-25 21:46:23,572 Processed file 469782545.180507210002.wav: 6 positive, 31 negative images generated
+2025-06-25 21:46:23,636 Processing 469782545.180507213002.wav on GPU (float16): 7198928 samples
+2025-06-25 21:46:23,651 Processed file 469782545.180507213002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:23,713 Processing 469782545.180508051502.wav on GPU (float16): 7197104 samples
+2025-06-25 21:46:23,729 Processed file 469782545.180508051502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:23,792 Processing 469782545.180508053002.wav on GPU (float16): 7196768 samples
+2025-06-25 21:46:23,814 Processed file 469782545.180508053002.wav: 4 positive, 16 negative images generated
+2025-06-25 21:46:23,878 Processing 469782545.180508054502.wav on GPU (float16): 7198816 samples
+2025-06-25 21:46:23,899 Processed file 469782545.180508054502.wav: 2 positive, 18 negative images generated
+2025-06-25 21:46:23,963 Processing 469782545.180508060002.wav on GPU (float16): 7198336 samples
+2025-06-25 21:46:23,988 Processed file 469782545.180508060002.wav: 4 positive, 23 negative images generated
+2025-06-25 21:46:24,051 Processing 469782545.180508061502.wav on GPU (float16): 7199392 samples
+2025-06-25 21:46:24,084 Processed file 469782545.180508061502.wav: 7 positive, 34 negative images generated
+2025-06-25 21:46:24,148 Processing 469782545.180508063002.wav on GPU (float16): 7198256 samples
+2025-06-25 21:46:24,169 Processed file 469782545.180508063002.wav: 3 positive, 16 negative images generated
+2025-06-25 21:46:24,233 Processing 469782545.180508064502.wav on GPU (float16): 7199472 samples
+2025-06-25 21:46:24,253 Processed file 469782545.180508064502.wav: 2 positive, 18 negative images generated
+2025-06-25 21:46:24,316 Processing 469782545.180508074502.wav on GPU (float16): 7198336 samples
+2025-06-25 21:46:24,341 Processed file 469782545.180508074502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:24,405 Processing 469782545.180508080002.wav on GPU (float16): 7197600 samples
+2025-06-25 21:46:24,425 Processed file 469782545.180508080002.wav: 2 positive, 18 negative images generated
+2025-06-25 21:46:24,488 Processing 469782545.180508081502.wav on GPU (float16): 7196864 samples
+2025-06-25 21:46:24,510 Processed file 469782545.180508081502.wav: 3 positive, 17 negative images generated
+2025-06-25 21:46:24,573 Processing 469782545.180508083002.wav on GPU (float16): 7198304 samples
+2025-06-25 21:46:24,615 Processed file 469782545.180508083002.wav: 8 positive, 50 negative images generated
+2025-06-25 21:46:24,678 Processing 469782545.180508084502.wav on GPU (float16): 7198048 samples
+2025-06-25 21:46:24,712 Processed file 469782545.180508084502.wav: 9 positive, 35 negative images generated
+2025-06-25 21:46:24,775 Processing 469782545.180508090002.wav on GPU (float16): 7198432 samples
+2025-06-25 21:46:24,817 Processed file 469782545.180508090002.wav: 10 positive, 51 negative images generated
+2025-06-25 21:46:24,879 Processing 469782545.180508091502.wav on GPU (float16): 7196672 samples
+2025-06-25 21:46:24,898 Processed file 469782545.180508091502.wav: 2 positive, 15 negative images generated
+2025-06-25 21:46:24,963 Processing 469782545.180508093002.wav on GPU (float16): 7198480 samples
+2025-06-25 21:46:24,979 Processed file 469782545.180508093002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:25,042 Processing 469782545.180508094502.wav on GPU (float16): 7199680 samples
+2025-06-25 21:46:25,076 Processed file 469782545.180508094502.wav: 9 positive, 36 negative images generated
+2025-06-25 21:46:25,139 Processing 469782545.180508101502.wav on GPU (float16): 7198464 samples
+2025-06-25 21:46:25,169 Processed file 469782545.180508101502.wav: 6 positive, 31 negative images generated
+2025-06-25 21:46:25,232 Processing 469782545.180508170002.wav on GPU (float16): 7196816 samples
+2025-06-25 21:46:25,258 Processed file 469782545.180508170002.wav: 7 positive, 23 negative images generated
+2025-06-25 21:46:25,321 Processing 469782545.180508171502.wav on GPU (float16): 7195792 samples
+2025-06-25 21:46:25,341 Processed file 469782545.180508171502.wav: 3 positive, 16 negative images generated
+2025-06-25 21:46:25,404 Processing 469782545.180508173002.wav on GPU (float16): 7199312 samples
+2025-06-25 21:46:25,429 Processed file 469782545.180508173002.wav: 3 positive, 24 negative images generated
+2025-06-25 21:46:25,491 Processing 469782545.180508174502.wav on GPU (float16): 7196240 samples
+2025-06-25 21:46:25,529 Processed file 469782545.180508174502.wav: 9 positive, 42 negative images generated
+2025-06-25 21:46:25,594 Processing 469782545.180508180002.wav on GPU (float16): 7196448 samples
+2025-06-25 21:46:25,616 Processed file 469782545.180508180002.wav: 6 positive, 17 negative images generated
+2025-06-25 21:46:25,682 Processing 469782545.180508181502.wav on GPU (float16): 7198688 samples
+2025-06-25 21:46:25,708 Processed file 469782545.180508181502.wav: 5 positive, 24 negative images generated
+2025-06-25 21:46:25,774 Processing 469782545.180508184502.wav on GPU (float16): 7197520 samples
+2025-06-25 21:46:25,790 Processed file 469782545.180508184502.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:25,855 Processing 469782545.180508190002.wav on GPU (float16): 7199440 samples
+2025-06-25 21:46:25,890 Processed file 469782545.180508190002.wav: 8 positive, 36 negative images generated
+2025-06-25 21:46:25,954 Processing 469782545.180508191502.wav on GPU (float16): 7198976 samples
+2025-06-25 21:46:25,992 Processed file 469782545.180508191502.wav: 6 positive, 29 negative images generated
+2025-06-25 21:46:26,058 Processing 469782545.180508193002.wav on GPU (float16): 7195824 samples
+2025-06-25 21:46:26,105 Processed file 469782545.180508193002.wav: 6 positive, 38 negative images generated
+2025-06-25 21:46:26,170 Processing 469782545.180508194502.wav on GPU (float16): 7197792 samples
+2025-06-25 21:46:26,206 Processed file 469782545.180508194502.wav: 10 positive, 37 negative images generated
+2025-06-25 21:46:26,270 Processing 469782545.180508201502.wav on GPU (float16): 7197744 samples
+2025-06-25 21:46:26,304 Processed file 469782545.180508201502.wav: 6 positive, 38 negative images generated
+2025-06-25 21:46:26,368 Processing 469782545.180508203002.wav on GPU (float16): 7197680 samples
+2025-06-25 21:46:26,384 Processed file 469782545.180508203002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:26,449 Processing 469782545.180508204502.wav on GPU (float16): 7197776 samples
+2025-06-25 21:46:26,484 Processed file 469782545.180508204502.wav: 9 positive, 38 negative images generated
+2025-06-25 21:46:26,550 Processing 469782545.180508210002.wav on GPU (float16): 7198000 samples
+2025-06-25 21:46:26,575 Processed file 469782545.180508210002.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:26,640 Processing 469782545.180508211502.wav on GPU (float16): 7197312 samples
+2025-06-25 21:46:26,664 Processed file 469782545.180508211502.wav: 4 positive, 20 negative images generated
+2025-06-25 21:46:26,730 Processing 469782545.180508213002.wav on GPU (float16): 7198096 samples
+2025-06-25 21:46:26,750 Processed file 469782545.180508213002.wav: 3 positive, 16 negative images generated
+2025-06-25 21:46:26,814 Processing 469782545.180508214502.wav on GPU (float16): 7198272 samples
+2025-06-25 21:46:26,834 Processed file 469782545.180508214502.wav: 2 positive, 17 negative images generated
+2025-06-25 21:46:26,898 Processing 469782545.180508220002.wav on GPU (float16): 7199200 samples
+2025-06-25 21:46:26,919 Processed file 469782545.180508220002.wav: 3 positive, 18 negative images generated
+2025-06-25 21:46:26,982 Processing 469782545.180509064502.wav on GPU (float16): 7197600 samples
+2025-06-25 21:46:26,999 Processed file 469782545.180509064502.wav: 2 positive, 10 negative images generated
+2025-06-25 21:46:27,061 Processing 469782545.180509073002.wav on GPU (float16): 7197456 samples
+2025-06-25 21:46:27,076 Processed file 469782545.180509073002.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:27,140 Processing 469782545.180509074502.wav on GPU (float16): 7197120 samples
+2025-06-25 21:46:27,161 Processed file 469782545.180509074502.wav: 2 positive, 18 negative images generated
+2025-06-25 21:46:27,223 Processing 469782545.180509080002.wav on GPU (float16): 7197024 samples
+2025-06-25 21:46:27,259 Processed file 469782545.180509080002.wav: 7 positive, 39 negative images generated
+2025-06-25 21:46:27,323 Processing 469782545.180509081502.wav on GPU (float16): 7196368 samples
+2025-06-25 21:46:27,375 Processed file 469782545.180509081502.wav: 18 positive, 49 negative images generated
+2025-06-25 21:46:27,439 Processing 469782545.180509083002.wav on GPU (float16): 7198976 samples
+2025-06-25 21:46:27,455 Processed file 469782545.180509083002.wav: 3 positive, 9 negative images generated
+2025-06-25 21:46:27,519 Processing 469782545.180509084502.wav on GPU (float16): 7198688 samples
+2025-06-25 21:46:27,542 Processed file 469782545.180509084502.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:27,606 Processing 469782545.180510090002.wav on GPU (float16): 7196176 samples
+2025-06-25 21:46:27,622 Processed file 469782545.180510090002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:27,684 Processing 469782545.180510093002.wav on GPU (float16): 7194368 samples
+2025-06-25 21:46:27,709 Processed file 469782545.180510093002.wav: 5 positive, 23 negative images generated
+2025-06-25 21:46:27,771 Processing 469782545.180510094502.wav on GPU (float16): 7193472 samples
+2025-06-25 21:46:27,791 Processed file 469782545.180510094502.wav: 3 positive, 16 negative images generated
+2025-06-25 21:46:27,855 Processing 469782545.180510100002.wav on GPU (float16): 7193984 samples
+2025-06-25 21:46:27,880 Processed file 469782545.180510100002.wav: 5 positive, 23 negative images generated
+2025-06-25 21:46:27,943 Processing 469782545.180510101502.wav on GPU (float16): 7197776 samples
+2025-06-25 21:46:27,976 Processed file 469782545.180510101502.wav: 4 positive, 24 negative images generated
+2025-06-25 21:46:28,039 Processing 469782545.180510103002.wav on GPU (float16): 7195216 samples
+2025-06-25 21:46:28,085 Processed file 469782545.180510103002.wav: 10 positive, 55 negative images generated
+2025-06-25 21:46:28,149 Processing 469782545.180510104502.wav on GPU (float16): 7198416 samples
+2025-06-25 21:46:28,217 Processed file 469782545.180510104502.wav: 21 positive, 84 negative images generated
+2025-06-25 21:46:28,281 Processing 469782545.180510110002.wav on GPU (float16): 7198432 samples
+2025-06-25 21:46:28,324 Processed file 469782545.180510110002.wav: 11 positive, 49 negative images generated
+2025-06-25 21:46:28,388 Processing 469782545.180510111502.wav on GPU (float16): 7196704 samples
+2025-06-25 21:46:28,426 Processed file 469782545.180510111502.wav: 9 positive, 44 negative images generated
+2025-06-25 21:46:28,490 Processing 469782545.180510113002.wav on GPU (float16): 7195232 samples
+2025-06-25 21:46:28,515 Processed file 469782545.180510113002.wav: 4 positive, 23 negative images generated
+2025-06-25 21:46:28,577 Processing 469782545.180510114502.wav on GPU (float16): 7195472 samples
+2025-06-25 21:46:28,593 Processed file 469782545.180510114502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:28,655 Processing 469782545.180510223002.wav on GPU (float16): 7195616 samples
+2025-06-25 21:46:28,670 Processed file 469782545.180510223002.wav: 2 positive, 9 negative images generated
+2025-06-25 21:46:28,733 Processing 469782545.180510224502.wav on GPU (float16): 7196256 samples
+2025-06-25 21:46:28,748 Processed file 469782545.180510224502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:28,810 Processing 469782545.180511131502.wav on GPU (float16): 7199120 samples
+2025-06-25 21:46:28,844 Processed file 469782545.180511131502.wav: 9 positive, 35 negative images generated
+2025-06-25 21:46:28,907 Processing 469782545.180511133002.wav on GPU (float16): 7198256 samples
+2025-06-25 21:46:28,922 Processed file 469782545.180511133002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:28,987 Processing 469782545.180511140002.wav on GPU (float16): 7197696 samples
+2025-06-25 21:46:29,003 Processed file 469782545.180511140002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:29,067 Processing 469782545.180511144502.wav on GPU (float16): 7199616 samples
+2025-06-25 21:46:29,083 Processed file 469782545.180511144502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:29,148 Processing 469782545.180511183002.wav on GPU (float16): 7197360 samples
+2025-06-25 21:46:29,166 Processed file 469782545.180511183002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:29,231 Processing 469782545.180511191502.wav on GPU (float16): 7197952 samples
+2025-06-25 21:46:29,247 Processed file 469782545.180511191502.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:29,312 Processing 469782545.180511201502.wav on GPU (float16): 7199632 samples
+2025-06-25 21:46:29,351 Processed file 469782545.180511201502.wav: 6 positive, 32 negative images generated
+2025-06-25 21:46:29,416 Processing 469782545.180511204502.wav on GPU (float16): 7198496 samples
+2025-06-25 21:46:29,447 Processed file 469782545.180511204502.wav: 7 positive, 28 negative images generated
+2025-06-25 21:46:29,512 Processing 469782545.180511213002.wav on GPU (float16): 7197632 samples
+2025-06-25 21:46:29,528 Processed file 469782545.180511213002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:29,591 Processing 469782545.180511234502.wav on GPU (float16): 7199504 samples
+2025-06-25 21:46:29,614 Processed file 469782545.180511234502.wav: 2 positive, 6 negative images generated
+2025-06-25 21:46:29,679 Processing 469782545.180512010002.wav on GPU (float16): 7199632 samples
+2025-06-25 21:46:29,701 Processed file 469782545.180512010002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:29,764 Processing 469782545.180512033002.wav on GPU (float16): 7197856 samples
+2025-06-25 21:46:29,788 Processed file 469782545.180512033002.wav: 1 positive, 10 negative images generated
+2025-06-25 21:46:29,831 Saved labels to ./DataInput/Beluga/206d_beluga_overlap400ms_spectrogram_labels.csv
+2025-06-25 21:46:29,833 Processing location 213D: src=./DataInput/Beluga/213D/805875730, dst=./DataInput/Beluga/TEST_SpectrogramsOverlap400ms/213D, 24 wavs
+2025-06-25 21:46:40,374 Processing 805875730.180623235720.wav on CPU due to large file size: 1036738384 samples
+2025-06-25 21:46:43,462 Processed file 805875730.180623235720.wav: 1 positive, 11 negative images generated
+2025-06-25 21:46:54,146 Processing 805875730.180624115715.wav on CPU due to large file size: 1036737536 samples
+2025-06-25 21:46:57,173 Processed file 805875730.180624115715.wav: 4 positive, 15 negative images generated
+2025-06-25 21:47:08,273 Processing 805875730.180625115706.wav on CPU due to large file size: 1036753088 samples
+2025-06-25 21:47:11,387 Processed file 805875730.180625115706.wav: 4 positive, 15 negative images generated
+2025-06-25 21:47:28,109 Processing 805875730.180625235702.wav on CPU due to large file size: 1036744544 samples
+2025-06-25 21:47:31,146 Processed file 805875730.180625235702.wav: 4 positive, 24 negative images generated
+2025-06-25 21:48:14,355 Processing 805875730.180626115657.wav on CPU due to large file size: 1036744576 samples
+2025-06-25 21:48:17,448 Processed file 805875730.180626115657.wav: 4 positive, 15 negative images generated
+2025-06-25 21:48:59,695 Processing 805875730.180628115639.wav on CPU due to large file size: 1036728384 samples
+2025-06-25 21:49:02,765 Processed file 805875730.180628115639.wav: 2 positive, 18 negative images generated
+2025-06-25 21:49:46,946 Processing 805875730.180807114959.wav on CPU due to large file size: 1036746416 samples
+2025-06-25 21:49:50,029 Processed file 805875730.180807114959.wav: 2 positive, 9 negative images generated
+2025-06-25 21:50:34,152 Processing 805875730.180808114950.wav on CPU due to large file size: 1036760816 samples
+2025-06-25 21:50:37,326 Processed file 805875730.180808114950.wav: 1 positive, 11 negative images generated
+2025-06-25 21:51:20,766 Processing 805875730.180809234938.wav on CPU due to large file size: 1036776608 samples
+2025-06-25 21:51:23,824 Processed file 805875730.180809234938.wav: 4 positive, 25 negative images generated
+2025-06-25 21:52:10,178 Processing 805875730.180812114917.wav on CPU due to large file size: 1036747424 samples
+2025-06-25 21:52:13,370 Processed file 805875730.180812114917.wav: 11 positive, 74 negative images generated
+2025-06-25 21:52:57,674 Processing 805875730.180813114908.wav on CPU due to large file size: 1036744928 samples
+2025-06-25 21:53:00,681 Processed file 805875730.180813114908.wav: 1 positive, 10 negative images generated
+2025-06-25 21:53:45,663 Processing 805875730.180813234903.wav on CPU due to large file size: 1036721216 samples
+2025-06-25 21:53:48,795 Processed file 805875730.180813234903.wav: 6 positive, 29 negative images generated
+2025-06-25 21:54:34,170 Processing 805875730.180814114858.wav on CPU due to large file size: 1036728368 samples
+2025-06-25 21:54:37,240 Processed file 805875730.180814114858.wav: 1 positive, 10 negative images generated
+2025-06-25 21:55:21,235 Processing 805875730.180815234840.wav on CPU due to large file size: 1036737280 samples
+2025-06-25 21:55:24,494 Processed file 805875730.180815234840.wav: 7 positive, 38 negative images generated
+2025-06-25 21:56:08,717 Processing 805875730.180816114835.wav on CPU due to large file size: 1036730896 samples
+2025-06-25 21:56:11,775 Processed file 805875730.180816114835.wav: 3 positive, 16 negative images generated
+2025-06-25 21:56:55,493 Processing 805875730.180816234830.wav on CPU due to large file size: 1036737440 samples
+2025-06-25 21:56:58,612 Processed file 805875730.180816234830.wav: 2 positive, 9 negative images generated
+2025-06-25 21:57:43,967 Processing 805875730.180818234812.wav on CPU due to large file size: 1036768720 samples
+2025-06-25 21:57:47,067 Processed file 805875730.180818234812.wav: 2 positive, 9 negative images generated
+2025-06-25 21:58:31,193 Processing 805875730.180820114800.wav on CPU due to large file size: 1036738144 samples
+2025-06-25 21:58:34,408 Processed file 805875730.180820114800.wav: 16 positive, 70 negative images generated
+2025-06-25 21:59:20,743 Processing 805875730.180822114739.wav on CPU due to large file size: 1036744096 samples
+2025-06-25 21:59:23,994 Processed file 805875730.180822114739.wav: 8 positive, 45 negative images generated
+2025-06-25 22:00:10,863 Processing 805875730.180827114656.wav on CPU due to large file size: 1036753344 samples
+2025-06-25 22:00:13,950 Processed file 805875730.180827114656.wav: 5 positive, 32 negative images generated
+2025-06-25 22:01:03,234 Processing 805875730.180830234624.wav on CPU due to large file size: 1036753376 samples
+2025-06-25 22:01:06,362 Processed file 805875730.180830234624.wav: 5 positive, 33 negative images generated
+2025-06-25 22:01:54,697 Processing 805875730.180831234615.wav on CPU due to large file size: 1036723504 samples
+2025-06-25 22:01:58,043 Processed file 805875730.180831234615.wav: 2 positive, 10 negative images generated
+2025-06-25 22:02:46,365 Processing 805875730.180903234542.wav on CPU due to large file size: 1036730064 samples
+2025-06-25 22:02:49,445 Processed file 805875730.180903234542.wav: 1 positive, 11 negative images generated
+2025-06-25 22:03:35,106 Processing 805875730.180906234509.wav on CPU due to large file size: 1036744688 samples
+2025-06-25 22:03:38,210 Processed file 805875730.180906234509.wav: 3 positive, 24 negative images generated
+2025-06-25 22:03:38,299 Saved labels to ./DataInput/Beluga/213d_beluga_overlap400ms_spectrogram_labels.csv
+2025-06-25 22:03:38,301 Processing location 214D: src=./DataInput/Beluga/214D/469782545, dst=./DataInput/Beluga/TEST_SpectrogramsOverlap400ms/214D, 32 wavs
+2025-06-25 22:04:23,252 Processing 469782545.180623115713.wav on CPU due to large file size: 1036736880 samples
+2025-06-25 22:04:26,444 Processed file 469782545.180623115713.wav: 2 positive, 9 negative images generated
+2025-06-25 22:05:12,972 Processing 469782545.180623235708.wav on CPU due to large file size: 1036713744 samples
+2025-06-25 22:05:16,125 Processed file 469782545.180623235708.wav: 2 positive, 18 negative images generated
+2025-06-25 22:06:03,826 Processing 469782545.180624115702.wav on CPU due to large file size: 1036739104 samples
+2025-06-25 22:06:06,972 Processed file 469782545.180624115702.wav: 2 positive, 18 negative images generated
+2025-06-25 22:06:53,574 Processing 469782545.180624235658.wav on CPU due to large file size: 1036731136 samples
+2025-06-25 22:06:56,634 Processed file 469782545.180624235658.wav: 4 positive, 17 negative images generated
+2025-06-25 22:07:43,062 Processing 469782545.180625115652.wav on CPU due to large file size: 1036737168 samples
+2025-06-25 22:07:46,036 Processed file 469782545.180625115652.wav: 1 positive, 10 negative images generated
+2025-06-25 22:08:30,826 Processing 469782545.180625235647.wav on CPU due to large file size: 1036752992 samples
+2025-06-25 22:08:33,967 Processed file 469782545.180625235647.wav: 4 positive, 25 negative images generated
+2025-06-25 22:09:19,874 Processing 469782545.180626115643.wav on CPU due to large file size: 1036752384 samples
+2025-06-25 22:09:23,019 Processed file 469782545.180626115643.wav: 5 positive, 24 negative images generated
+2025-06-25 22:10:08,971 Processing 469782545.180627235631.wav on CPU due to large file size: 1036753376 samples
+2025-06-25 22:10:12,236 Processed file 469782545.180627235631.wav: 12 positive, 80 negative images generated
+2025-06-25 22:10:57,176 Processing 469782545.180628115626.wav on CPU due to large file size: 1036746928 samples
+2025-06-25 22:11:00,344 Processed file 469782545.180628115626.wav: 4 positive, 17 negative images generated
+2025-06-25 22:11:44,813 Processing 469782545.180802235022.wav on CPU due to large file size: 1036755392 samples
+2025-06-25 22:11:47,896 Processed file 469782545.180802235022.wav: 2 positive, 9 negative images generated
+2025-06-25 22:12:31,649 Processing 469782545.180808114934.wav on CPU due to large file size: 1036744608 samples
+2025-06-25 22:12:34,678 Processed file 469782545.180808114934.wav: 8 positive, 28 negative images generated
+2025-06-25 22:13:20,330 Processing 469782545.180812234855.wav on CPU due to large file size: 1036752544 samples
+2025-06-25 22:13:23,660 Processed file 469782545.180812234855.wav: 14 positive, 82 negative images generated
+2025-06-25 22:14:09,524 Processing 469782545.180813234847.wav on CPU due to large file size: 1036744640 samples
+2025-06-25 22:14:12,671 Processed file 469782545.180813234847.wav: 4 positive, 24 negative images generated
+2025-06-25 22:14:57,622 Processing 469782545.180816114822.wav on CPU due to large file size: 1036745056 samples
+2025-06-25 22:15:00,765 Processed file 469782545.180816114822.wav: 6 positive, 30 negative images generated
+2025-06-25 22:15:46,813 Processing 469782545.180816234818.wav on CPU due to large file size: 1036736384 samples
+2025-06-25 22:15:49,823 Processed file 469782545.180816234818.wav: 2 positive, 9 negative images generated
+2025-06-25 22:16:34,607 Processing 469782545.180817234808.wav on CPU due to large file size: 1036722000 samples
+2025-06-25 22:16:37,872 Processed file 469782545.180817234808.wav: 14 positive, 80 negative images generated
+2025-06-25 22:17:23,140 Processing 469782545.180818234756.wav on CPU due to large file size: 1036722480 samples
+2025-06-25 22:17:26,198 Processed file 469782545.180818234756.wav: 1 positive, 10 negative images generated
+2025-06-25 22:18:12,630 Processing 469782545.180820114741.wav on CPU due to large file size: 1036747936 samples
+2025-06-25 22:18:15,748 Processed file 469782545.180820114741.wav: 14 positive, 41 negative images generated
+2025-06-25 22:19:00,043 Processing 469782545.180820234736.wav on CPU due to large file size: 1036731760 samples
+2025-06-25 22:19:03,043 Processed file 469782545.180820234736.wav: 1 positive, 11 negative images generated
+2025-06-25 22:19:47,769 Processing 469782545.180822234717.wav on CPU due to large file size: 1036730992 samples
+2025-06-25 22:19:50,912 Processed file 469782545.180822234717.wav: 1 positive, 11 negative images generated
+2025-06-25 22:20:35,658 Processing 469782545.180823114712.wav on CPU due to large file size: 1036730992 samples
+2025-06-25 22:20:38,818 Processed file 469782545.180823114712.wav: 3 positive, 16 negative images generated
+2025-06-25 22:21:24,057 Processing 469782545.180826114644.wav on CPU due to large file size: 1036744848 samples
+2025-06-25 22:21:27,179 Processed file 469782545.180826114644.wav: 4 positive, 15 negative images generated
+2025-06-25 22:22:12,113 Processing 469782545.180827114635.wav on CPU due to large file size: 1036762336 samples
+2025-06-25 22:22:15,248 Processed file 469782545.180827114635.wav: 10 positive, 41 negative images generated
+2025-06-25 22:22:59,152 Processing 469782545.180828234622.wav on CPU due to large file size: 1036785152 samples
+2025-06-25 22:23:02,279 Processed file 469782545.180828234622.wav: 1 positive, 10 negative images generated
+2025-06-25 22:23:45,839 Processing 469782545.180830234607.wav on CPU due to large file size: 1036756032 samples
+2025-06-25 22:23:48,927 Processed file 469782545.180830234607.wav: 2 positive, 10 negative images generated
+2025-06-25 22:24:32,447 Processing 469782545.180831234559.wav on CPU due to large file size: 1036761152 samples
+2025-06-25 22:24:35,567 Processed file 469782545.180831234559.wav: 4 positive, 24 negative images generated
+2025-06-25 22:25:18,502 Processing 469782545.180903234533.wav on CPU due to large file size: 1036730624 samples
+2025-06-25 22:25:21,639 Processed file 469782545.180903234533.wav: 9 positive, 42 negative images generated
+2025-06-25 22:26:06,089 Processing 469782545.180904114527.wav on CPU due to large file size: 1036729520 samples
+2025-06-25 22:26:09,217 Processed file 469782545.180904114527.wav: 3 positive, 16 negative images generated
+2025-06-25 22:26:51,948 Processing 469782545.180906234505.wav on CPU due to large file size: 1036801200 samples
+2025-06-25 22:26:55,241 Processed file 469782545.180906234505.wav: 16 positive, 80 negative images generated
+2025-06-25 22:27:39,001 Processing 469782545.180907114503.wav on CPU due to large file size: 1036776608 samples
+2025-06-25 22:27:42,226 Processed file 469782545.180907114503.wav: 7 positive, 47 negative images generated
+2025-06-25 22:28:26,687 Processing 469782545.180907234500.wav on CPU due to large file size: 1036771264 samples
+2025-06-25 22:28:29,799 Processed file 469782545.180907234500.wav: 3 positive, 17 negative images generated
+2025-06-25 22:29:14,492 Processing 469782545.180908114456.wav on CPU due to large file size: 1036768560 samples
+2025-06-25 22:29:17,589 Processed file 469782545.180908114456.wav: 2 positive, 17 negative images generated
+2025-06-25 22:29:17,681 Saved labels to ./DataInput/Beluga/214d_beluga_overlap400ms_spectrogram_labels.csv
+2025-06-25 22:29:17,683 Processing location 215D: src=./DataInput/Beluga/215D/201875479, dst=./DataInput/Beluga/TEST_SpectrogramsOverlap400ms/215D, 4 wavs
+2025-06-25 22:30:03,309 Processing 201875479.180624235642.wav on CPU due to large file size: 1036721200 samples
+2025-06-25 22:30:06,428 Processed file 201875479.180624235642.wav: 4 positive, 15 negative images generated
+2025-06-25 22:30:53,286 Processing 201875479.180626115626.wav on CPU due to large file size: 1036721888 samples
+2025-06-25 22:30:56,360 Processed file 201875479.180626115626.wav: 1 positive, 11 negative images generated
+2025-06-25 22:31:41,387 Processing 201875479.180627235610.wav on CPU due to large file size: 1036705328 samples
+2025-06-25 22:31:44,671 Processed file 201875479.180627235610.wav: 22 positive, 95 negative images generated
+2025-06-25 22:32:10,971 Processing 201875479.180802235023.wav on CPU due to large file size: 613285866 samples
+2025-06-25 22:32:13,141 Processed file 201875479.180802235023.wav: 0 positive, 3 negative images generated
+2025-06-25 22:32:13,192 Saved labels to ./DataInput/Beluga/215d_beluga_overlap400ms_spectrogram_labels.csv

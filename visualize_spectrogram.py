@@ -13,7 +13,7 @@ def visualize_spectrogram_segment(wav_path, start_time_sec, duration):
     total_duration_sec = waveform_full.shape[1] / sr
 
     print(f"Sample rate: {sr}, audio length: {total_duration_sec:.2f} sec")
-    print(f"Audio file duration: {total_duration_sec:.2f} seconds")
+    # print(f"Audio file duration: {total_duration_sec:.2f} seconds")
     print(f"Requested segment: start={start_time_sec}s, duration={duration}s")
 
     frame_offset = int(start_time_sec * sr)
@@ -66,7 +66,7 @@ def visualize_spectrogram_segment(wav_path, start_time_sec, duration):
     torchaudio.save("preview_audio_segment.wav", waveform, sample_rate=sr)
     print("Audio segment saved to preview_audio_segment.wav")
 
-def process_csv_and_generate(csv_path, rownumber=0, duration=2.0):
+def process_csv_and_generate(csv_path, rownumber=0, duration=2.0, override_start=None):
     df = pd.read_csv(csv_path)
 
     if 'audiofile' not in df.columns or 'startSeconds' not in df.columns:
@@ -76,8 +76,13 @@ def process_csv_and_generate(csv_path, rownumber=0, duration=2.0):
         raise IndexError(f"Row number {rownumber} exceeds number of rows in CSV.")
 
     row = df.iloc[rownumber]
-    wav_path = "./DataInput/Beluga/201D/604536840/" + row['audiofile']
-    start_seconds = row['startSeconds']
+    wav_path = row['audiofile']
+
+    if override_start is not None:
+        start_seconds = float(override_start)
+        print(f"🔧 Overriding start time to {start_seconds} seconds (was {row['startSeconds']})")
+    else:
+        start_seconds = float(row['startSeconds'])
 
     print(f"Processing: {wav_path} at {start_seconds} seconds for {duration} seconds")
     if not os.path.exists(wav_path):
@@ -90,6 +95,13 @@ if __name__ == "__main__":
     parser.add_argument("csv_path", type=str, help="Path to the input CSV file.")
     parser.add_argument("--row", type=int, default=0, help="Row number to process (default: 0).")
     parser.add_argument("--duration", type=float, default=2.0, help="Duration of segment to extract in seconds (default: 2.0).")
+    parser.add_argument("--start", type=float, help="Override start time in seconds (optional).")
+
     args = parser.parse_args()
 
-    process_csv_and_generate(args.csv_path, rownumber=args.row, duration=args.duration)
+    process_csv_and_generate(
+        csv_path=args.csv_path,
+        rownumber=args.row,
+        duration=args.duration,
+        override_start=args.start
+    )
