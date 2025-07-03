@@ -5,9 +5,9 @@ matplotlib
 pytz
 torch
 torchvision
+torchaudio
 lightning
 scikit-learn
 Pillow
 tqdm
-torchaudio
-multiprocessing
+tensorboard

@@ -1,4 +1,4 @@
-# TEST_make_spectrograms_and_labels.py
+# make_spectrograms_and_labels.py
 
 import os
 import glob
@@ -22,9 +22,10 @@ N_FFT     = 1024       # must match STFT n_fft
 # ─── LOGGING ───────────────────────────────────────────────────────────────
 os.makedirs('Logs', exist_ok=True)
 today = datetime.datetime.now(pytz.UTC).strftime('%Y-%m-%d')
-run_no= len(glob.glob(f"Logs/TEST_maeke_spectrograms_and_labels_{today}_*.log")) + 1
+run_no= len(glob.glob(f"Logs/make_spectrograms_and_labels_{today}_*.log")) + 1
+local_time = datetime.datetime.now().strftime('%H%M%S')
 logging.basicConfig(
-    filename=f"Logs/TEST_maeke_spectrograms_and_labels_{today}_{run_no}.log",
+    filename=f"Logs/make_spectrograms_and_labels_{today}_{local_time}.log",
     level=logging.INFO,
     format='%(asctime)s %(message)s',
     force=True
@@ -148,7 +149,7 @@ def process_wav_file(
             seg_end = seg_start + segment_duration
             arr = slices[i].numpy()
             label = int(overlaps_any_anno(seg_start, seg_end, annotation_intervals, min_overlap_for_positive))
-            fname = f"{location}__{audiofile.replace('.wav','')}__{int(seg_start*1000)}_{int(seg_end*1000)}.pt"
+            fname = f"{audiofile.replace('.wav','')}_{int(seg_start*1000)}_{int(seg_end*1000)}.pt"
             fpath = os.path.join(dst_folder, fname)
             torch.save(torch.from_numpy(arr), fpath)
             results.append((fname, label))
@@ -187,7 +188,7 @@ def generate_spectrograms_and_labels(
 
     for loc in locations:
         src = resolve_audio_folder(f"./DataInput/{species}/{loc}")
-        dst = f"./DataInput/{species}/TEST_SpectrogramsOverlap{int(overlap*1000)}ms/{loc}"
+        dst = f"./DataInput/{species}/SpectrogramsOverlap{int(overlap*1000)}ms/{loc}"
 
         # Only process WAVs referenced in ann_df for this location
         wavs_in_ann = set(ann_df[ann_df['location'] == loc]['audiofile'].unique())
@@ -212,9 +213,18 @@ def generate_spectrograms_and_labels(
         df['dirpath'] = dst
         df['fullpath'] = df['filename'].apply(lambda fn: os.path.join(dst, fn))
         df['species'] = species.lower()
-        csv_out = f"./DataInput/{species}/{loc.lower()}_{species.lower()}_overlap{int(overlap*1000)}ms_spectrogram_labels.csv"
+        csv_out = f"./DataInput/{species}/{species}_{loc}_overlap{int(overlap*1000)}ms_spectrogram_labels.csv"
         df.to_csv(csv_out, index=False)
         logging.info(f"Saved labels to {csv_out}")
+
+    # After all locations processed, combine all label CSVs for this species into one file
+    pattern = f"./DataInput/{species}/{species}_*_overlap{int(overlap*1000)}ms_spectrogram_labels.csv"
+    all_label_files = glob.glob(pattern)
+    if all_label_files:
+        all_df = pd.concat([pd.read_csv(f) for f in all_label_files], ignore_index=True)
+        combined_csv = f"./DataInput/{species}/{species}_labels.csv"
+        all_df.to_csv(combined_csv, index=False)
+        logging.info(f"Combined all label files into {combined_csv}")
 
 # ─── RUNNER ────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
@@ -222,7 +232,7 @@ if __name__ == "__main__":
         species   = "Beluga",
         locations = ["201D","206D","213D","214D","215D"],
         ann_csv   = None,
-        proportion = 0.01
+        proportion = 1.0
     )
 
     # # adjust species & overlap_ms as needed

@@ -25,7 +25,106 @@ from lightning.pytorch import loggers as pl_loggers
 from lightning.pytorch.callbacks import ModelCheckpoint
 from lightning.pytorch.callbacks.early_stopping import EarlyStopping
 from lightning.pytorch.utilities import rank_zero_only
-from tqdm import tqdm
+import torch.nn.functional as F
+
+# Custom tensor-based augmentations for spectrograms
+class SpectrogramAugmentations:
+    def __init__(self, 
+                 horizontal_shift_range=0.1,
+                 occlusion_prob=0.3,
+                 occlusion_max_lines=3,
+                 noise_prob=0.5,
+                 noise_std=0.01,
+                 buffer_prob=0.3,
+                 buffer_max_ratio=0.1):
+        self.horizontal_shift_range = horizontal_shift_range
+        self.occlusion_prob = occlusion_prob
+        self.occlusion_max_lines = occlusion_max_lines
+        self.noise_prob = noise_prob
+        self.noise_std = noise_std
+        self.buffer_prob = buffer_prob
+        self.buffer_max_ratio = buffer_max_ratio
+    
+    def horizontal_shift(self, spec):
+        """Randomly shift spectrogram horizontally (time axis)"""
+        if torch.rand(1) < 0.5:  # 50% chance
+            _, _, time_dim = spec.shape
+            shift_pixels = int(torch.randint(-int(time_dim * self.horizontal_shift_range), 
+                                           int(time_dim * self.horizontal_shift_range) + 1, (1,)))
+            if shift_pixels != 0:
+                spec = torch.roll(spec, shifts=shift_pixels, dims=2)
+        return spec
+    
+    def add_occlusions(self, spec):
+        """Add random thin line occlusions (frequency masking)"""
+        if torch.rand(1) < self.occlusion_prob:
+            _, freq_dim, time_dim = spec.shape
+            num_lines = torch.randint(1, self.occlusion_max_lines + 1, (1,)).item()
+            
+            for _ in range(num_lines):
+                # Random frequency line
+                if torch.rand(1) < 0.7:  # 70% frequency lines, 30% time lines
+                    freq_start = torch.randint(0, freq_dim, (1,)).item()
+                    line_width = torch.randint(1, max(2, freq_dim // 20), (1,)).item()
+                    freq_end = min(freq_start + line_width, freq_dim)
+                    spec[:, freq_start:freq_end, :] = 0
+                else:
+                    # Random time line
+                    time_start = torch.randint(0, time_dim, (1,)).item()
+                    line_width = torch.randint(1, max(2, time_dim // 20), (1,)).item()
+                    time_end = min(time_start + line_width, time_dim)
+                    spec[:, :, time_start:time_end] = 0
+        return spec
+    
+    def add_gaussian_noise(self, spec):
+        """Add gaussian noise to spectrogram"""
+        if torch.rand(1) < self.noise_prob:
+            noise = torch.randn_like(spec) * self.noise_std
+            spec = spec + noise
+            # Clamp to maintain reasonable range
+            spec = torch.clamp(spec, 0, spec.max())
+        return spec
+    
+    def add_buffer_simulation(self, spec):
+        """Simulate lower sampling rate by adding buffer/padding"""
+        if torch.rand(1) < self.buffer_prob:
+            _, freq_dim, time_dim = spec.shape
+            # Simulate lower resolution by downsampling and upsampling
+            downsample_factor = torch.rand(1) * self.buffer_max_ratio + 0.9  # 0.9-1.0
+            
+            new_time_dim = int(time_dim * downsample_factor)
+            new_freq_dim = int(freq_dim * downsample_factor)
+            
+            # Downsample
+            spec_down = F.interpolate(spec.unsqueeze(0), 
+                                    size=(new_freq_dim, new_time_dim), 
+                                    mode='bilinear', align_corners=False).squeeze(0)
+            
+            # Upsample back to original size
+            spec = F.interpolate(spec_down.unsqueeze(0), 
+                               size=(freq_dim, time_dim), 
+                               mode='bilinear', align_corners=False).squeeze(0)
+        return spec
+    
+    def __call__(self, spec, is_training=True):
+        """Apply up to 2 random augmentations during training only"""
+        if not is_training:
+            return spec
+        
+        # List of augmentation methods (as bound methods)
+        augmentations = [
+            self.horizontal_shift,
+            self.add_occlusions,
+            self.add_gaussian_noise,
+            self.add_buffer_simulation
+        ]
+        # Randomly select up to 2 augmentations (could be 0, 1, or 2)
+        num_to_apply = torch.randint(1, 3, (1,)).item()  # 1 or 2
+        selected = random.sample(augmentations, num_to_apply)
+        random.shuffle(selected)
+        for aug in selected:
+            spec = aug(spec)
+        return spec
 
 # Set up logging
 if pl.utilities.rank_zero.rank_zero_only.rank == 0:
@@ -39,42 +138,68 @@ def log_message(message):
 
 # Custom Dataset class to load spectrogram images
 class SpectrogramDataset(Dataset):
-    def __init__(self, image_paths, labels, transform=None):
+    def __init__(self, image_paths, labels, transform=None, is_training=False):
         self.image_paths = image_paths
         self.labels = labels
         self.transform = transform
+        self.is_training = is_training
 
     def __len__(self):
         return len(self.image_paths)
 
+    # def __getitem__(self, idx):
+    #     image = Image.open(self.image_paths[idx])
+    #     label = self.labels[idx]
+    #     if self.transform:
+    #         image = self.transform(image)
+    #     return image, label, self.image_paths[idx] 
+
     def __getitem__(self, idx):
-        image = Image.open(self.image_paths[idx])
+        # Load the spectrogram tensor from .pt file
+        spec = torch.load(self.image_paths[idx])  # shape: [freq, time] or [1, freq, time]
+        if spec.ndim == 2:
+            # Add channel dimension if missing
+            spec = spec.unsqueeze(0)  # [1, freq, time]
+        # Repeat to 3 channels if needed for ResNet
+        if spec.shape[0] == 1:
+            spec = spec.repeat(3, 1, 1)  # [3, freq, time]
+        
+        # Resize to (3, 224, 224) using torch.nn.functional.interpolate
+        if spec.shape[-2:] != (224, 224):
+            spec = F.interpolate(spec.unsqueeze(0), size=(224, 224), mode='bilinear', align_corners=False).squeeze(0)
+        
+        # Apply tensor-based augmentations if training
+        if self.transform is not None:
+            spec = self.transform(spec, self.is_training)
+        
+        # Ensure tensor is float and normalized to [0, 1] if needed
+        if spec.dtype != torch.float32:
+            spec = spec.float()
+        
+        # Normalize if needed (assuming spectrograms might need normalization)
+        if spec.max() > 1.0:
+            spec = spec / spec.max()
+        
         label = self.labels[idx]
-        if self.transform:
-            image = self.transform(image)
-        return image, label, self.image_paths[idx] 
-
+        return spec, label, self.image_paths[idx]
 # Define image transformations
-# For on-the-fly augmentations during train
+# For .pt tensor data, we handle transformations manually in __getitem__
+# These transforms are kept for reference but not used with tensor data
 
-train_transform = transforms.Compose([
-    transforms.Grayscale(num_output_channels=3),
-    transforms.Resize((224, 224)),
-    transforms.RandomApply([
-        transforms.ColorJitter(brightness=0.3, contrast=0.3),
-        transforms.RandomAffine(degrees=10, translate=(0.05, 0.05), scale=(0.9, 1.1)),
-        transforms.RandomErasing(p=0.5, scale=(0.02, 0.2), ratio=(0.3, 3.3), value=0),
-    ], p=0.8),
-    transforms.ToTensor(),
-])
+train_transform = SpectrogramAugmentations(
+    horizontal_shift_range=0.1,
+    occlusion_prob=0.5,
+    occlusion_max_lines=3,
+    noise_prob=0.5,
+    noise_std=0.01,
+    buffer_prob=0.3,
+    buffer_max_ratio=0.1
+)
 
-val_transform = transforms.Compose([
-    transforms.Grayscale(num_output_channels=3),
-    transforms.Resize((224, 224)),
-    transforms.ToTensor(),
-])
+val_transform = SpectrogramAugmentations()  # No augmentation during validation
 
 test_transform = val_transform
+
 
 class ResNet18Classifier(pl.LightningModule):
     def __init__(self, image_paths, learning_rate=0.001, test_location=None, val_location=None):
@@ -160,7 +285,7 @@ class ResNet18Classifier(pl.LightningModule):
     def on_validation_epoch_start(self):
         self.val_outputs = []
 
-    def validation_epoch_end(self, outputs):
+    def on_validation_epoch_end(self):
         all_preds = torch.cat([x['preds'] for x in self.val_outputs])
         all_labels = torch.cat([x['labels'] for x in self.val_outputs])
 
@@ -169,8 +294,8 @@ class ResNet18Classifier(pl.LightningModule):
         all_labels_np = all_labels.cpu().numpy()
 
         # Compute metrics
-        precision = precision_score(all_labels_np, all_preds_np, average='macro')
-        recall = recall_score(all_labels_np, all_preds_np, average='macro')
+        precision = precision_score(all_labels_np, all_preds_np, average='macro', zero_division=0)
+        recall = recall_score(all_labels_np, all_preds_np, average='macro', zero_division=0)
         try:
             auc = roc_auc_score(all_labels_np, all_preds_np, multi_class='ovo')  # multiclass support
         except ValueError:
@@ -189,8 +314,8 @@ class ResNet18Classifier(pl.LightningModule):
         all_preds = torch.cat([x['preds'] for x in self.test_outputs])
         all_labels = torch.cat([x['labels'] for x in self.test_outputs])
 
-        precision = precision_score(all_labels.cpu(), all_preds.cpu(), average='macro')
-        recall = recall_score(all_labels.cpu(), all_preds.cpu(), average='macro')
+        precision = precision_score(all_labels.cpu(), all_preds.cpu(), average='macro', zero_division=0)
+        recall = recall_score(all_labels.cpu(), all_preds.cpu(), average='macro', zero_division=0)
         auc = roc_auc_score(all_labels.cpu(), all_preds.cpu())
         test_acc = (all_preds == all_labels).float().mean().item()
 
@@ -236,9 +361,9 @@ if not torch.cuda.is_available():
 
 
 # Labels file path
-label_files = ['/home/radodhia/ssdprivate/NOAA_Whales/DataInput/Humpback/humpback_spectrogram_labels_overlap400ms.csv','/home/radodhia/ssdprivate/NOAA_Whales/DataInput/KillerWhale/killerwhale_spectrogram_labels_overlap400ms.csv','/home/radodhia/ssdprivate/NOAA_Whales/DataInput/Beluga/SpectrogramsOverlap400ms/beluga_spectrogram_labels_overlap400ms_selection.csv']
+label_files = ['/home/radodhia/ssdprivate/NOAAWhalesV2/DataInput/Beluga/201d_beluga_overlap400ms_spectrogram_labels.csv']
 # Read label_files into a dataframe
-# beluga labels were created by make_s[ectrograms_v3_beluga.py and belugaInputSelection.py
+# beluga labels were created by make_spectrograms_v3_beluga.py and belugaInputSelection.py
 
 dfs = []
 for label_file in label_files:
@@ -272,7 +397,8 @@ locations = locations[::-1]
 labelsdf.groupby(['location', 'species']).size().reset_index(name='count')
 
 # runs=[{'test':'ALBS04','val':'Iniskin'},{'test':'Iniskin','val':'ALNM01'},{'test':'Chinitna','val':'PtGraham'}]
-runs=[{'test':['ALBS04','201D'],'val':['Iniskin','215D']}]
+# runs=[{'test':['ALBS04','201D'],'val':['Iniskin','215D']}]
+runs=[{'test':['201D'],'val':['201D']}]
 
 for run in runs:
     test_locations = run['test']
@@ -320,16 +446,16 @@ for run in runs:
     Create dataframes containing file paths, whether they are train, validation, or test, and their labels
     '''
     # Create a DataFrame of training image paths and labels
-    train_image_paths = [os.path.basename(train_subset.dataset.image_paths[i]) for i in all_train_idx]
+    train_image_paths = [train_subset.dataset.image_paths[i] for i in all_train_idx]
     train_labels = [train_subset.dataset.labels[i] for i in all_train_idx]
-    train_df = pd.DataFrame({'image_path': train_image_paths, 'assigned':'train','label': train_labels})
+    train_df = pd.DataFrame({'image_path': [os.path.basename(p) for p in train_image_paths], 'assigned':'train','label': train_labels})
 
     # Create a DataFrame of all validation image paths and labels
-    val_image_paths = [os.path.basename(val_subset_from_train.dataset.image_paths[i]) for i in val_idx_from_train]
+    val_image_paths = [val_subset_from_train.dataset.image_paths[i] for i in val_idx_from_train]
     val_labels = [val_subset_from_train.dataset.labels[i] for i in val_idx_from_train]
-    val_image_paths += [os.path.basename(i) for i in val_dataset_from_val_location.image_paths]
+    val_image_paths += [i for i in val_dataset_from_val_location.image_paths]
     val_labels += val_dataset_from_val_location.labels
-    val_df = pd.DataFrame({'image_path': val_image_paths, 'assigned':'validation', 'label': val_labels})
+    val_df = pd.DataFrame({'image_path': [os.path.basename(p) for p in val_image_paths], 'assigned':'validation', 'label': val_labels})
 
     # Create a DataFrame of test image paths and labels
     test_df = pd.DataFrame({'image_path': [os.path.basename(i) for i in test_image_paths], 'assigned':'test', 'label': test_labels})
@@ -341,9 +467,9 @@ for run in runs:
     assigned_df.to_csv(assigned_filepath, index=False)
     logging.info(f'Saved data assignations to {assigned_filepath}')
 
-    train_loader = DataLoader(train_subset, batch_size=batch_size, shuffle=True)
-    val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
-    test_loader = DataLoader(SpectrogramDataset(test_image_paths, test_labels, transform = test_transform), batch_size=batch_size, shuffle=False)
+    train_loader = DataLoader(SpectrogramDataset(train_image_paths, train_labels, transform=train_transform, is_training=True), batch_size=batch_size, shuffle=True, num_workers=4)
+    val_loader = DataLoader(SpectrogramDataset(val_image_paths, val_labels, transform=val_transform, is_training=False), batch_size=batch_size, shuffle=False, num_workers=4)
+    test_loader = DataLoader(SpectrogramDataset(test_image_paths, test_labels, transform=test_transform, is_training=False), batch_size=batch_size, shuffle=False, num_workers=4)
     logging.info(f'Data loaders created')
 
     model = ResNet18Classifier(image_paths=test_image_paths)
@@ -371,12 +497,12 @@ for run in runs:
         devices=[0],
         num_nodes=1,
         accelerator='gpu',
-        strategy='ddp_notebook',
+        strategy='auto',
         precision='16-mixed',
         logger=pl_loggers.TensorBoardLogger(save_dir=log_dir,name=''),
         callbacks=[checkpoint_callback, early_stop_callback]
     )
-
+    
     logging.info(f'Starting model training')    
     trainer.fit(model, train_loader, val_loader)
 

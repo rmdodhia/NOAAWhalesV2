@@ -22,23 +22,23 @@ NOAAWhalesV2
             --> Annotations
                 --> (bunch of labels in csv)
         --> Humpback
-            --> AL16_BS4_hump_data
+            --> AL16_BS4_humpback_data
                 --> (bunch of wav files)
-            --> AL16_BS4_hump_selections
+            --> AL16_BS4_humpback_selections
                 --> (bunch of txt files)
-            --> AL16_NM1_hump_data
+            --> AL16_NM1_humpback_data
                 --> (bunch of wav files)
-            --> AL16_NM1_hump_selections
+            --> AL16_NM1_humpback_selections
                 --> (bunch of txt files)
-            --> LCI_Chinitna_hump_data
+            --> LCI_Chinitna_humpback_data
                 --> (bunch of wav files)
-            --> LCI_Chinitna_hump_selections
+            --> LCI_Chinitna_humpback_selections
                 --> (bunch of txt files)
-            --> LCI_Iniskin_hump_data
+            --> LCI_Iniskin_humpback_data
                 --> (bunch of wav files)
             --> LCI_Iniskin_humpback_selections
                 --> (bunch of txt files)
-            --> LCI_Port_Graham_hump_selections
+            --> LCI_Port_Graham_humpback_selections
                 --> (bunch of txt files)
             --> LCI_Port_Graham_humpback
                 --> (bunch of wav files)

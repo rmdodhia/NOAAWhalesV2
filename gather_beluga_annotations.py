@@ -83,8 +83,8 @@ def compute_coverage(wav_files, annotations):
     coverage_ratio = total_annotated_duration / total_audio_duration if total_audio_duration > 0 else 0
     log(f"Total audio: {total_audio_duration:.1f}s, Annotated: {total_annotated_duration:.1f}s, Coverage: {coverage_ratio:.2%}")
 
-def process_annotation_csv(folder_name, base_path, annotations_path):
-    wav_path = os.path.join(base_path, folder_name)
+def process_annotation_csv(folder_name, annotations_folder_path, annotations_path):
+    wav_path = os.path.join(annotations_folder_path, folder_name)
     wav_files, sample_rates_df, wav_stamps, wav_prefix = load_wav_file_metadata(wav_path)
 
     ann_files = [f for f in os.listdir(annotations_path) if f.startswith(folder_name) and f.endswith('.csv')]
