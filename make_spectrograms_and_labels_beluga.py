@@ -21,8 +21,7 @@ N_FFT     = 1024       # must match STFT n_fft
 
 # ─── LOGGING ───────────────────────────────────────────────────────────────
 os.makedirs('Logs', exist_ok=True)
-today = datetime.datetime.now(pytz.UTC).strftime('%Y-%m-%d')
-run_no= len(glob.glob(f"Logs/make_spectrograms_and_labels_{today}_*.log")) + 1
+today = datetime.datetime.now().strftime('%Y-%m-%d')
 local_time = datetime.datetime.now().strftime('%H%M%S')
 logging.basicConfig(
     filename=f"Logs/make_spectrograms_and_labels_{today}_{local_time}.log",
@@ -213,16 +212,16 @@ def generate_spectrograms_and_labels(
         df['dirpath'] = dst
         df['fullpath'] = df['filename'].apply(lambda fn: os.path.join(dst, fn))
         df['species'] = species.lower()
-        csv_out = f"./DataInput/{species}/{species}_{loc}_overlap{int(overlap*1000)}ms_spectrogram_labels.csv"
+        csv_out = f"./DataInput/{species}/LabelsOverlap400ms/{species}_{loc}_overlap{int(overlap*1000)}ms_spectrogram_labels.csv"
         df.to_csv(csv_out, index=False)
         logging.info(f"Saved labels to {csv_out}")
 
     # After all locations processed, combine all label CSVs for this species into one file
-    pattern = f"./DataInput/{species}/{species}_*_overlap{int(overlap*1000)}ms_spectrogram_labels.csv"
+    pattern = f"./DataInput/{species}/LabelsOverlap400ms/{species}_*_overlap{int(overlap*1000)}ms_spectrogram_labels.csv"
     all_label_files = glob.glob(pattern)
     if all_label_files:
         all_df = pd.concat([pd.read_csv(f) for f in all_label_files], ignore_index=True)
-        combined_csv = f"./DataInput/{species}/{species}_labels.csv"
+        combined_csv = f"./DataInput/{species}/LabelsOverlap400ms/{species}_labels.csv"
         all_df.to_csv(combined_csv, index=False)
         logging.info(f"Combined all label files into {combined_csv}")
 
