@@ -53,128 +53,148 @@ def process_wav_file(
 ):
     import math
     wav_info = torchaudio.info(wav_path)
-    num_samples = wav_info.num_frames
     sr = wav_info.sample_rate
+    total_samples = wav_info.num_frames
+    file_duration = total_samples / sr
     audiofile = os.path.basename(wav_path)
-    location = os.path.basename(os.path.dirname(wav_path))
-    results = []
-
-    def process_chunk(wave, chunk_start_s, ann_df, sr):
-        # Decide device/dtype for this chunk
-        chunk_samples = wave.shape[-1]
-        if DEVICE == 'cuda' and chunk_samples <= large_file_samples:
-            wave = wave.to(DEVICE).half()
-            device = DEVICE
-            dtype = torch.float16
-            logging.info(f"Processing chunk for location {location} on GPU (float16): {chunk_samples} samples")
-        else:
-            wave = wave.cpu()
-            device = 'cpu'
-            dtype = torch.float32
-            logging.info(f"Processing chunk for location {location} on CPU: {chunk_samples} samples")
-
-        # --- Get all annotation intervals for this file ---
-        sub = ann_df[ann_df["audiofile"] == audiofile]
-        annotation_intervals = []
-        padded_intervals = []
-
-        for _, row in sub.iterrows():
-            start = row["startseconds"]
-            end = start + row["durationSeconds"]
-            annotation_intervals.append((start, end))
-            # Padded region (integer-rounded)
-            padded_start = int(np.floor(max(start - n_pad, 0)))
-            padded_end = int(np.ceil(end + n_pad))
-            padded_intervals.append((padded_start, padded_end))
-
-        # --- Merge overlapping padded intervals into non-overlapping regions ---
-        def merge_intervals(intervals):
-            if not intervals:
-                return []
-            sorted_intervals = sorted(intervals, key=lambda x: x[0])
-            merged = [sorted_intervals[0]]
-            for current in sorted_intervals[1:]:
-                last = merged[-1]
-                if current[0] <= last[1]:
-                    merged[-1] = (last[0], max(last[1], current[1]))
-                else:
-                    merged.append(current)
-            return merged
-
-        merged_padded = merge_intervals(padded_intervals)
-
-        def in_any_region(t0, t1, regions):
-            return any(max(0, min(b, t1) - max(a, t0)) > 0 for a, b in regions)
-
-        def overlaps_any_anno(t0, t1, intervals, min_overlap):
-            return any(max(0, min(b, t1) - max(a, t0)) >= min_overlap for a, b in intervals)
-
-        # --- Compute spectrogram once ---
-        spec = torch.stft(
-            wave,
-            n_fft=N_FFT,
-            hop_length=HOP_LEN,
-            win_length=N_FFT,
-            window=torch.hann_window(N_FFT, device=device, dtype=dtype),
-            return_complex=True
-        )
-        mag = spec.abs()
-        db = 20 * torch.log10(mag + 1e-6)
-        db = torch.clamp(db, min=-80, max=0).cpu()
-
-        seg_frames = math.ceil((segment_duration * sr) / HOP_LEN)
-        step_frames = math.ceil(((segment_duration - overlap) * sr) / HOP_LEN)
-
-        slices = db.unfold(dimension=1, size=seg_frames, step=step_frames)
-        slices = slices.permute(1, 0, 2)
-        num_segments = slices.shape[0]
-        stride = segment_duration - overlap
-
-        os.makedirs(dst_folder, exist_ok=True)
-
-        # --- Store indices for null segment selection ---
-        padded_indices = []
-        all_indices = []
-        for i in range(num_segments):
-            seg_start = i * stride
-            seg_end = seg_start + segment_duration
-            all_indices.append((i, seg_start, seg_end))
-            if in_any_region(seg_start, seg_end, merged_padded):
-                padded_indices.append(i)
-
-        # --- For each segment in padded region, label as 1 if overlaps any annotation, else 0 ---
-        for i in padded_indices:
-            seg_start = i * stride
-            seg_end = seg_start + segment_duration
-            arr = slices[i].numpy()
-            label = int(overlaps_any_anno(seg_start, seg_end, annotation_intervals, min_overlap_for_positive))
-            fname = f"{audiofile.replace('.wav','')}_{int(seg_start*1000)}_{int(seg_end*1000)}.pt"
-            fpath = os.path.join(dst_folder, fname)
-            torch.save(torch.from_numpy(arr), fpath)
-            results.append((fname, label))
-
     os.makedirs(dst_folder, exist_ok=True)
-    if num_samples > large_file_samples:
-        logging.info(f"Chunked processing for {audiofile} ({num_samples} samples)")
-        chunk_samples = int(chunk_duration_s * sr)
-        n_chunks = math.ceil(num_samples / chunk_samples)
-        for chunk_idx in range(n_chunks):
-            start_sample = chunk_idx * chunk_samples
-            end_sample = min((chunk_idx + 1) * chunk_samples, num_samples)
-            chunk_len = end_sample - start_sample
-            wave, _ = torchaudio.load(wav_path, frame_offset=start_sample, num_frames=chunk_len)
-            process_chunk(wave[0], chunk_start_s=start_sample / sr, ann_df=ann_df, sr=sr)
-    else:
-        wave, _ = torchaudio.load(wav_path)
-        process_chunk(wave[0], chunk_start_s=0, ann_df=ann_df, sr=sr)
-    n_pos = sum(1 for _, label in results if label == 1)
-    n_neg = sum(1 for _, label in results if label == 0)
+
+    # --- Get all annotation intervals for this file and build padded intervals ---
+    sub = ann_df[ann_df["audiofile"] == audiofile]
+    annotation_intervals = [(row["startseconds"], row["startseconds"] + row["durationSeconds"]) for _, row in sub.iterrows()]
+    padded_intervals = [
+        (
+            int(np.floor(max(row["startseconds"] - n_pad, 0))),
+            int(np.ceil(min(row["startseconds"] + row["durationSeconds"] + n_pad, file_duration)))
+        )
+        for _, row in sub.iterrows()
+    ]
+
+    def merge_intervals(intervals):
+        if not intervals:
+            return []
+        sorted_intervals = sorted(intervals, key=lambda x: x[0])
+        merged = [sorted_intervals[0]]
+        for current in sorted_intervals[1:]:
+            last = merged[-1]
+            if current[0] <= last[1]:
+                merged[-1] = (last[0], max(last[1], current[1]))
+            else:
+                merged.append(current)
+        return merged
+
+    merged_padded = merge_intervals(padded_intervals)
+
+    def overlaps_any_anno(t0, t1, intervals, min_overlap):
+        return any(max(0, min(b, t1) - max(a, t0)) >= min_overlap for a, b in intervals)
+
+    def process_padded_interval(start, end):
+        try:
+            start_sample = int(start * sr)
+            end_sample = int(end * sr)
+            # Clamp to file bounds
+            start_sample = max(0, min(start_sample, total_samples))
+            end_sample = max(0, min(end_sample, total_samples))
+            num_samples = end_sample - start_sample
+            if num_samples <= 0:
+                logging.warning(f"Interval {start:.2f}-{end:.2f}s (samples {start_sample}:{end_sample}) is empty or out of bounds for {audiofile}")
+                return []
+            try:
+                wave_tensor, _ = torchaudio.load(
+                    wav_path,
+                    frame_offset=start_sample,
+                    num_frames=num_samples
+                )
+            except RuntimeError as e:
+                logging.warning(
+                    f"Partial load failed at {start_sample}:{end_sample} for {audiofile}, falling back to full load: {e}"
+                )
+                try:
+                    full_wave, _ = torchaudio.load(wav_path)
+                    wave_tensor = full_wave[:, start_sample:end_sample]
+                except Exception as e2:
+                    logging.error(f"Full load also failed for {audiofile}: {e2}")
+                    return []
+            # Handle multi-channel audio robustly
+            if wave_tensor.ndim == 2 and wave_tensor.shape[0] > 1:
+                wave = wave_tensor.mean(dim=0)
+            else:
+                wave = wave_tensor[0]
+            chunk_start_s = start
+            chunk_samples = wave.shape[-1]
+            try:
+                if DEVICE == 'cuda' and chunk_samples <= large_file_samples:
+                    wave = wave.to(DEVICE).half()
+                    device = DEVICE
+                    dtype = torch.float16
+                    logging.info(f"Processing padded interval {start:.2f}-{end:.2f}s on GPU (float16): {chunk_samples} samples")
+                else:
+                    wave = wave.cpu()
+                    device = 'cpu'
+                    dtype = torch.float32
+                    logging.info(f"Processing padded interval {start:.2f}-{end:.2f}s on CPU: {chunk_samples} samples")
+            except RuntimeError as oom:
+                logging.warning(f"CUDA OOM for interval {start:.2f}-{end:.2f}s, retrying on CPU: {oom}")
+                wave = wave.cpu().float()
+                device = 'cpu'
+                dtype = torch.float32
+            try:
+                spec = torch.stft(
+                    wave,
+                    n_fft=N_FFT,
+                    hop_length=HOP_LEN,
+                    win_length=N_FFT,
+                    window=torch.hann_window(N_FFT, device=device, dtype=dtype),
+                    return_complex=True
+                )
+                mag = spec.abs()
+                db = 20 * torch.log10(mag + 1e-6)
+                db = torch.clamp(db, min=-80, max=0).cpu()
+            except Exception as e:
+                logging.error(f"STFT failed for {audiofile} interval {start:.2f}-{end:.2f}s: {e}")
+                return []
+            seg_frames = math.ceil((segment_duration * sr) / HOP_LEN)
+            step_frames = math.ceil(((segment_duration - overlap) * sr) / HOP_LEN)
+            try:
+                slices = db.unfold(dimension=1, size=seg_frames, step=step_frames)
+                slices = slices.permute(1, 0, 2)
+            except Exception as e:
+                logging.error(f"Spectrogram slicing failed for {audiofile} interval {start:.2f}-{end:.2f}s: {e}")
+                return []
+            num_segments = slices.shape[0]
+            stride = segment_duration - overlap
+            results = []
+            for i in range(num_segments):
+                seg_start = i * stride
+                seg_end = seg_start + segment_duration
+                abs_seg_start = seg_start + chunk_start_s
+                abs_seg_end = seg_end + chunk_start_s
+                arr = slices[i].numpy()
+                label = int(overlaps_any_anno(abs_seg_start, abs_seg_end, annotation_intervals, min_overlap_for_positive))
+                fname = f"{audiofile.replace('.wav','')}_{int(abs_seg_start*1000)}_{int(abs_seg_end*1000)}.pt"
+                fpath = os.path.join(dst_folder, fname)
+                try:
+                    torch.save(torch.from_numpy(arr), fpath)
+                except Exception as e:
+                    logging.error(f"Failed to save tensor for {audiofile} segment {abs_seg_start:.2f}-{abs_seg_end:.2f}s: {e}")
+                    continue
+                results.append((fname, label))
+            return results
+        except Exception as e:
+            logging.error(f"process_padded_interval failed for {audiofile} interval {start:.2f}-{end:.2f}s: {e}")
+            return []
+
+    all_results = []
+    for (start, end) in merged_padded:
+        all_results.extend(process_padded_interval(start, end))
+    n_pos = sum(1 for _, label in all_results if label == 1)
+    n_neg = sum(1 for _, label in all_results if label == 0)
     logging.info(f"Processed file {audiofile}: {n_pos} positive, {n_neg} negative images generated")
-    return results
+    return all_results
 
 
 def generate_spectrograms_and_labels(
-    species, locations, ann_csv=None, proportion=1,
+    species, locations, ann_csv=None, proportion=1.0,
     segment_duration=2.0, overlap=0.4, n_pad=5.0, k_null=3, min_overlap_for_positive=0.1
 ):
     ann_csv = ann_csv or f"./DataInput/{species}/{species}_annotations.csv"
@@ -193,11 +213,11 @@ def generate_spectrograms_and_labels(
         wavs_in_ann = set(ann_df[ann_df['location'] == loc]['audiofile'].unique())
         wavs_to_process = [os.path.join(src, w) for w in wavs_in_ann if os.path.exists(os.path.join(src, w))]
 
-        logging.info(f"Processing location {loc}: src={src}, dst={dst}, {len(wavs_to_process)} wavs")
+        logging.info(f"\n\nProcessing location {loc}: src={src}, dst={dst}, {len(wavs_to_process)} wavs")
         all_out = []
         for wav in sorted(wavs_to_process):
             out = process_wav_file(
-                wav, dst, ann_df,
+                wav_path=wav, dst_folder=dst, ann_df=ann_df,
                 segment_duration=segment_duration,
                 overlap=overlap,
                 n_pad=n_pad,
@@ -213,6 +233,7 @@ def generate_spectrograms_and_labels(
         df['fullpath'] = df['filename'].apply(lambda fn: os.path.join(dst, fn))
         df['species'] = species.lower()
         csv_out = f"./DataInput/{species}/LabelsOverlap400ms/{species}_{loc}_overlap{int(overlap*1000)}ms_spectrogram_labels.csv"
+        os.makedirs(os.path.dirname(csv_out), exist_ok=True)
         df.to_csv(csv_out, index=False)
         logging.info(f"Saved labels to {csv_out}")
 
@@ -229,9 +250,10 @@ def generate_spectrograms_and_labels(
 if __name__ == "__main__":
     generate_spectrograms_and_labels(
         species   = "Beluga",
-        locations = ["201D","206D","213D","214D","215D"],
+        # locations = ["201D","206D","213D","214D","215D"],
+        locations = ["215D","223D"],
         ann_csv   = None,
-        proportion = 1.0
+        proportion = 0.25
     )
 
     # # adjust species & overlap_ms as needed

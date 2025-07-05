@@ -84,108 +84,130 @@ def process_wav_file(
     wav_info = torchaudio.info(wav_path)
     num_samples = wav_info.num_frames
     sr = wav_info.sample_rate
+    file_duration = num_samples / sr
     audiofile = os.path.basename(wav_path)
     location = os.path.basename(os.path.dirname(wav_path))
     results = []
 
     def process_chunk(wave, chunk_start_s, ann_df, sr, chunk_index, n_chunks):
-        # Decide device/dtype for this chunk
-        chunk_samples = wave.shape[-1]
-        if DEVICE == 'cuda' and chunk_samples <= large_file_samples:
-            wave = wave.to(DEVICE).half()
-            device = DEVICE
-            dtype = torch.float16
-            logging.info(f"Processing chunk {chunk_index} of {n_chunks} for location {location} on GPU (float16): {chunk_samples} samples starting at {chunk_start_s:.2f}s")
-        else:
-            wave = wave.cpu()
-            device = 'cpu'
-            dtype = torch.float32
-            logging.info(f"Processing chunk {chunk_index} of {n_chunks} for location {location} on CPU: {chunk_samples} samples starting at {chunk_start_s:.2f}s")
+        try:
+            chunk_samples = wave.shape[-1]
+            if DEVICE == 'cuda' and chunk_samples <= large_file_samples:
+                try:
+                    wave = wave.to(DEVICE).half()
+                    device = DEVICE
+                    dtype = torch.float16
+                    logging.info(f"Processing chunk {chunk_index} of {n_chunks} for location {location} on GPU (float16): {chunk_samples} samples starting at {chunk_start_s:.2f}s")
+                except RuntimeError as oom:
+                    logging.warning(f"CUDA OOM for chunk {chunk_index} ({chunk_start_s:.2f}s), retrying on CPU: {oom}")
+                    wave = wave.cpu().float()
+                    device = 'cpu'
+                    dtype = torch.float32
+            else:
+                wave = wave.cpu()
+                device = 'cpu'
+                dtype = torch.float32
+                logging.info(f"Processing chunk {chunk_index} of {n_chunks} for location {location} on CPU: {chunk_samples} samples starting at {chunk_start_s:.2f}s")
 
-        # --- Get all annotation intervals for this file ---
-        sub = ann_df[ann_df["audiofile"] == audiofile]
-        annotation_intervals = []
-        padded_intervals = []
+            # --- Get all annotation intervals for this file ---
+            sub = ann_df[ann_df["audiofile"] == audiofile]
+            annotation_intervals = []
+            padded_intervals = []
 
-        for _, row in sub.iterrows():
-            start = row["startseconds"]
-            end = start + row["durationseconds"]
-            annotation_intervals.append((start, end))
-            # Padded region (integer-rounded)
-            padded_start = int(np.floor(max(start - n_pad, 0)))
-            padded_end = int(np.ceil(end + n_pad))
-            padded_intervals.append((padded_start, padded_end))
+            for _, row in sub.iterrows():
+                start = row["startseconds"]
+                end = start + row["durationseconds"]
+                annotation_intervals.append((start, end))
+                # Padded region (integer-rounded)
+                padded_start = max(start - n_pad, 0)
+                padded_end = min(end + n_pad, file_duration)
+                padded_intervals.append((padded_start, padded_end))
 
-        # --- Merge overlapping padded intervals into non-overlapping regions ---
-        def merge_intervals(intervals):
-            if not intervals:
-                return []
-            sorted_intervals = sorted(intervals, key=lambda x: x[0])
-            merged = [sorted_intervals[0]]
-            for current in sorted_intervals[1:]:
-                last = merged[-1]
-                if current[0] <= last[1]:
-                    merged[-1] = (last[0], max(last[1], current[1]))
-                else:
-                    merged.append(current)
-            return merged
+            # --- Merge overlapping padded intervals into non-overlapping regions ---
+            def merge_intervals(intervals):
+                if not intervals:
+                    return []
+                sorted_intervals = sorted(intervals, key=lambda x: x[0])
+                merged = [sorted_intervals[0]]
+                for current in sorted_intervals[1:]:
+                    last = merged[-1]
+                    if current[0] <= last[1]:
+                        merged[-1] = (last[0], max(last[1], current[1]))
+                    else:
+                        merged.append(current)
+                return merged
 
-        merged_padded = merge_intervals(padded_intervals)
+            merged_padded = merge_intervals(padded_intervals)
 
-        def in_any_region(t0, t1, regions):
-            return any(max(0, min(b, t1) - max(a, t0)) > 0 for a, b in regions)
+            def in_any_region(t0, t1, regions):
+                return any(max(0, min(b, t1) - max(a, t0)) > 0 for a, b in regions)
 
-        def overlaps_any_anno(t0, t1, intervals, min_overlap):
-            return any(max(0, min(b, t1) - max(a, t0)) >= min_overlap for a, b in intervals)
+            def overlaps_any_anno(t0, t1, intervals, min_overlap):
+                return any(max(0, min(b, t1) - max(a, t0)) >= min_overlap for a, b in intervals)
 
-        # --- Compute spectrogram once ---
-        spec = torch.stft(
-            wave,
-            n_fft=N_FFT,
-            hop_length=HOP_LEN,
-            win_length=N_FFT,
-            window=torch.hann_window(N_FFT, device=device, dtype=dtype),
-            return_complex=True
-        )
-        mag = spec.abs()
-        db = 20 * torch.log10(mag + 1e-6)
-        db = torch.clamp(db, min=-80, max=0).cpu()
+            try:
+                # --- Compute spectrogram once ---
+                spec = torch.stft(
+                    wave,
+                    n_fft=N_FFT,
+                    hop_length=HOP_LEN,
+                    win_length=N_FFT,
+                    window=torch.hann_window(N_FFT, device=device, dtype=dtype),
+                    return_complex=True
+                )
+                mag = spec.abs()
+                db = 20 * torch.log10(mag + 1e-6)
+                db = torch.clamp(db, min=-80, max=0).cpu()
+            except Exception as e:
+                logging.error(f"STFT failed for {audiofile} chunk {chunk_index} ({chunk_start_s:.2f}s): {e}")
+                return
+            seg_frames = math.ceil((segment_duration * sr) / HOP_LEN)
+            step_frames = math.ceil(((segment_duration - overlap) * sr) / HOP_LEN)
 
-        seg_frames = math.ceil((segment_duration * sr) / HOP_LEN)
-        step_frames = math.ceil(((segment_duration - overlap) * sr) / HOP_LEN)
+            # --- Check if audio is too short for segment extraction ---
+            if db.shape[1] < seg_frames:
+                logging.warning(f"Skipping {audiofile} chunk {chunk_index} of {n_chunks}: too short for segment extraction (frames: {db.shape[1]}, needed: {seg_frames})")
+                return
+            try:
+                slices = db.unfold(dimension=1, size=seg_frames, step=step_frames)
+                slices = slices.permute(1, 0, 2)
+            except Exception as e:
+                logging.error(f"Spectrogram slicing failed for {audiofile} chunk {chunk_index} ({chunk_start_s:.2f}s): {e}")
+                return
+            num_segments = slices.shape[0]
+            stride = segment_duration - overlap
 
-        # --- Check if audio is too short for segment extraction ---
-        if db.shape[1] < seg_frames:
-            logging.warning(f"Skipping {audiofile} chunk {chunk_index} of {n_chunks}: too short for segment extraction (frames: {db.shape[1]}, needed: {seg_frames})")
+            # --- Store indices for null segment selection ---
+            padded_indices = []
+            all_indices = []
+            for i in range(num_segments):
+                seg_start = i * stride
+                seg_end = seg_start + segment_duration
+                abs_seg_start = seg_start + chunk_start_s
+                abs_seg_end = seg_end + chunk_start_s
+                all_indices.append((i, abs_seg_start, abs_seg_end))
+                if in_any_region(abs_seg_start, abs_seg_end, merged_padded):
+                    padded_indices.append(i)
+
+            # --- For each segment in padded region, label as 1 if overlaps any annotation, else 0 ---
+            for i in padded_indices:
+                seg_start = i * stride
+                seg_end = seg_start + segment_duration
+                abs_seg_start = seg_start + chunk_start_s
+                abs_seg_end = seg_end + chunk_start_s
+                arr = slices[i].numpy()
+                label = int(overlaps_any_anno(abs_seg_start, abs_seg_end, annotation_intervals, min_overlap_for_positive))
+                fname = f"{audiofile.replace('.wav','')}_{int(abs_seg_start*1000)}_{int(abs_seg_end*1000)}.pt"
+                fpath = os.path.join(dst_folder, fname)
+                try:
+                    torch.save(torch.from_numpy(arr), fpath)
+                except Exception as e:
+                    logging.error(f"Failed to save tensor for {audiofile} segment {abs_seg_start:.2f}-{abs_seg_end:.2f}s: {e}")
+                    continue
+                results.append((fname, label))
+        except Exception as e:
+            logging.error(f"process_chunk failed for {audiofile} chunk {chunk_index} ({chunk_start_s:.2f}s): {e}")
             return
-
-        slices = db.unfold(dimension=1, size=seg_frames, step=step_frames)
-        slices = slices.permute(1, 0, 2)
-        num_segments = slices.shape[0]
-        stride = segment_duration - overlap
-
-        os.makedirs(dst_folder, exist_ok=True)
-
-        # --- Store indices for null segment selection ---
-        padded_indices = []
-        all_indices = []
-        for i in range(num_segments):
-            seg_start = i * stride
-            seg_end = seg_start + segment_duration
-            all_indices.append((i, seg_start, seg_end))
-            if in_any_region(seg_start, seg_end, merged_padded):
-                padded_indices.append(i)
-
-        # --- For each segment in padded region, label as 1 if overlaps any annotation, else 0 ---
-        for i in padded_indices:
-            seg_start = i * stride
-            seg_end = seg_start + segment_duration
-            arr = slices[i].numpy()
-            label = int(overlaps_any_anno(seg_start, seg_end, annotation_intervals, min_overlap_for_positive))
-            fname = f"{audiofile.replace('.wav','')}_{int(seg_start*1000)}_{int(seg_end*1000)}.pt"
-            fpath = os.path.join(dst_folder, fname)
-            torch.save(torch.from_numpy(arr), fpath)
-            results.append((fname, label))
 
     os.makedirs(dst_folder, exist_ok=True)
     if num_samples > large_file_samples:
@@ -196,6 +218,8 @@ def process_wav_file(
             start_sample = chunk_idx * chunk_samples
             end_sample = min((chunk_idx + 1) * chunk_samples, num_samples)
             chunk_len = end_sample - start_sample
+            if chunk_len <= 0:
+                continue
             wave, _ = torchaudio.load(wav_path, frame_offset=start_sample, num_frames=chunk_len)
             process_chunk(wave[0], chunk_start_s=start_sample / sr, ann_df=ann_df, sr=sr, chunk_index=chunk_idx, n_chunks=n_chunks)
     else:
@@ -289,6 +313,7 @@ def generate_spectrograms_and_labels(
         df['fullpath'] = df['filename'].apply(lambda fn: os.path.join(dst, fn))
         df['species'] = species.lower()
         csv_out = f"./DataInput/{species}/{species}_{loc}_overlap{int(overlap*1000)}ms_spectrogram_labels.csv"
+        os.makedirs(os.path.dirname(csv_out), exist_ok=True)
         df.to_csv(csv_out, index=False)
         logging.info(f"Saved labels to {csv_out}")
 
