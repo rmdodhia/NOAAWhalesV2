@@ -10,6 +10,7 @@ from itertools import combinations
 import random
 from collections import Counter
 from PIL import Image
+import numpy as np
 
 from sklearn.metrics import precision_score, recall_score, roc_auc_score
 from sklearn.model_selection import train_test_split
@@ -26,6 +27,17 @@ from lightning.pytorch.callbacks import ModelCheckpoint
 from lightning.pytorch.callbacks.early_stopping import EarlyStopping
 from lightning.pytorch.utilities import rank_zero_only
 import torch.nn.functional as F
+
+# Function to get data subset from labels df
+
+def get_data_from_csv(df, location, data_use_proportion=1.0):
+    logging.info(f'Reading {data_use_proportion} of location {location} from labels dataframe')
+    df = df.sample(frac=data_use_proportion, random_state=42)
+    df_location = df[df['location'] == location]
+    image_paths = df_location['fullpath'].tolist()
+    labels = df_location['label'].tolist()
+    logging.info(f'Returning {len(image_paths)} image_paths and labels\n')
+    return image_paths, labels
 
 # Custom tensor-based augmentations for spectrograms
 class SpectrogramAugmentations:
@@ -278,12 +290,22 @@ class ResNet18Classifier(pl.LightningModule):
 
     def on_train_epoch_start(self):
         logging.info(f'Starting epoch {self.current_epoch + 1}')
+        # Log learning rate(s)
+        if hasattr(self.trainer, 'optimizers') and self.trainer.optimizers:
+            for i, param_group in enumerate(self.trainer.optimizers[0].param_groups):
+                logging.info(f'Learning rate for group {i}: {param_group["lr"]}')
+        # Log GPU memory usage if available
+        if torch.cuda.is_available():
+            for i in range(torch.cuda.device_count()):
+                mem = torch.cuda.memory_allocated(i) / 1024**3
+                logging.info(f'GPU {i} memory allocated: {mem:.2f} GB')
 
     def on_train_epoch_end(self):
         logging.info(f'Finished epoch {self.current_epoch + 1}')
-    
+
     def on_validation_epoch_start(self):
         self.val_outputs = []
+        logging.info(f'Starting validation epoch {self.current_epoch + 1}')
 
     def on_validation_epoch_end(self):
         all_preds = torch.cat([x['preds'] for x in self.val_outputs])
@@ -301,14 +323,24 @@ class ResNet18Classifier(pl.LightningModule):
         except ValueError:
             auc = float('nan')  # fallback if only one class present
 
+        # Compute val_loss and val_acc from logged values
+        val_loss = self.trainer.callback_metrics.get('val_loss')
+        val_acc = self.trainer.callback_metrics.get('val_acc')
+
         self.log('val_precision', precision, prog_bar=True, logger=True, sync_dist=True)
         self.log('val_recall', recall, prog_bar=True, logger=True, sync_dist=True)
         self.log('val_auc', auc, prog_bar=True, logger=True, sync_dist=True)
 
-        logging.info(f'Validation Metrics - Epoch {self.current_epoch+1}: Precision={precision:.4f}, Recall={recall:.4f}, AUC={auc:.4f}')
+        # Log class distribution in validation set
+        unique, counts = np.unique(all_labels_np, return_counts=True)
+        class_dist = dict(zip(unique, counts))
+        logging.info(f'Validation class distribution: {class_dist}')
+
+        logging.info(f'Validation Metrics - Epoch {self.current_epoch+1}: val_loss={val_loss}, val_acc={val_acc}, Precision={precision:.4f}, Recall={recall:.4f}, AUC={auc:.4f}')
 
     def on_test_epoch_start(self):
         self.test_outputs = []
+        logging.info(f'Starting test epoch')
 
     def on_test_epoch_end(self):
         all_preds = torch.cat([x['preds'] for x in self.test_outputs])
@@ -319,6 +351,11 @@ class ResNet18Classifier(pl.LightningModule):
         auc = roc_auc_score(all_labels.cpu(), all_preds.cpu())
         test_acc = (all_preds == all_labels).float().mean().item()
 
+        # Log class distribution in test set
+        unique, counts = np.unique(all_labels.cpu().numpy(), return_counts=True)
+        class_dist = dict(zip(unique, counts))
+        logging.info(f'Test class distribution: {class_dist}')
+
         self.log('test_precision', precision, sync_dist=True)
         self.log('test_recall', recall, sync_dist=True)
         self.log('test_auc', auc, sync_dist=True)
@@ -327,26 +364,23 @@ class ResNet18Classifier(pl.LightningModule):
         print(f'Test Metrics - Location: {self.test_location}, Val Location: {self.val_location}, Acc: {test_acc:.4f}, Precision: {precision:.4f}, Recall: {recall:.4f}, AUC: {auc:.4f}')
 
     def configure_optimizers(self):
-        optimizer = optim.Adam(self.parameters(), lr=self.learning_rate)
+        optimizer = torch.optim.Adam(self.parameters(), lr=self.learning_rate)
         return optimizer
 
-# Function to get data subset from labels df
-def get_data_from_csv(df, location, data_use_proportion=1.0):
-    logging.info(f'Reading {data_use_proportion} of location {location} from labels dataframe')
-    df = df.sample(frac=data_use_proportion, random_state=42)
-    df_location = df[df['location'] == location]
-    image_paths = df_location['fullpath'].tolist()
-    labels = df_location['label'].tolist()
-    logging.info(f'Returning {len(image_paths)} image_paths and labels\n')
-    return image_paths, labels
-
+# After ModelCheckpoint callback definition, add a custom callback for logging best model saves and early stopping
+class LoggingCallback(pl.Callback):
+    def on_save_checkpoint(self, trainer, pl_module, checkpoint):
+        logging.info(f'Checkpoint saved at epoch {trainer.current_epoch}')
+    def on_train_end(self, trainer, pl_module):
+        if hasattr(trainer, 'early_stopping_callback') and trainer.early_stopping_callback.stopped_epoch > 0:
+            logging.info(f"Early stopping triggered at epoch {trainer.early_stopping_callback.stopped_epoch}")
 
 # Main loop for training and validation
 
 # Set model train parameters
-data_use_proportion = .02
-num_epochs = 2
-batch_size = 32
+data_use_proportion = 0.95
+num_epochs = 25
+batch_size = 64
 
 
 # Ensure CUDA is available and devices are properly initialized
@@ -361,7 +395,9 @@ if not torch.cuda.is_available():
 
 
 # Labels file path
-label_files = ['/home/radodhia/ssdprivate/NOAAWhalesV2/DataInput/Beluga/201d_beluga_overlap400ms_spectrogram_labels.csv']
+label_files = ['/home/radodhia/ssdprivate/NOAAWhalesV2/DataInput/Beluga/LabelsOverlap400ms/Beluga_labels.csv'
+               ,'/home/radodhia/ssdprivate/NOAAWhalesV2/DataInput/Humpback/LabelsOverlap400ms/Humpback_labels.csv'
+               ,'/home/radodhia/ssdprivate/NOAAWhalesV2/DataInput/Orca/LabelsOverlap400ms/Orca_labels.csv']
 # Read label_files into a dataframe
 # beluga labels were created by make_spectrograms_v3_beluga.py and belugaInputSelection.py
 
@@ -387,18 +423,18 @@ labelsdf.loc[(labelsdf['species'] == 'humpback') & (labelsdf['label'] == 1), 'mu
 labelsdf.loc[(labelsdf['species'] == 'killerwhale') & (labelsdf['label'] == 1), 'multilabel'] = 'killerwhale'
 labelsdf.loc[(labelsdf['species'] == 'beluga') & (labelsdf['label'] == 1), 'multilabel'] = 'beluga'
 
+logging.info(f'Label files read')
+# Log label counts by species
+label_counts = labelsdf.groupby('species')['label'].value_counts()
+logging.info(f'Label counts by species:\n{label_counts}')
 labelsdf.to_csv('/home/radodhia/ssdprivate/NOAA_Whales/DataInput/labels_overlap400ms_three_species.csv')
 
 # Get unique locations from the CSV file
 locations = labelsdf['location'].unique()
 locations = locations[::-1]
 
-# Get frequency count of location by species
-labelsdf.groupby(['location', 'species']).size().reset_index(name='count')
-
 # runs=[{'test':'ALBS04','val':'Iniskin'},{'test':'Iniskin','val':'ALNM01'},{'test':'Chinitna','val':'PtGraham'}]
-# runs=[{'test':['ALBS04','201D'],'val':['Iniskin','215D']}]
-runs=[{'test':['201D'],'val':['201D']}]
+runs=[{'test':['ALBS04','201D'],'val':['Iniskin','215D']}]
 
 for run in runs:
     test_locations = run['test']
@@ -467,9 +503,9 @@ for run in runs:
     assigned_df.to_csv(assigned_filepath, index=False)
     logging.info(f'Saved data assignations to {assigned_filepath}')
 
-    train_loader = DataLoader(SpectrogramDataset(train_image_paths, train_labels, transform=train_transform, is_training=True), batch_size=batch_size, shuffle=True, num_workers=4)
-    val_loader = DataLoader(SpectrogramDataset(val_image_paths, val_labels, transform=val_transform, is_training=False), batch_size=batch_size, shuffle=False, num_workers=4)
-    test_loader = DataLoader(SpectrogramDataset(test_image_paths, test_labels, transform=test_transform, is_training=False), batch_size=batch_size, shuffle=False, num_workers=4)
+    train_loader = DataLoader(SpectrogramDataset(train_image_paths, train_labels, transform=train_transform, is_training=True), batch_size=batch_size, shuffle=True, num_workers=0)
+    val_loader = DataLoader(SpectrogramDataset(val_image_paths, val_labels, transform=val_transform, is_training=False), batch_size=batch_size, shuffle=False, num_workers=0)
+    test_loader = DataLoader(SpectrogramDataset(test_image_paths, test_labels, transform=test_transform, is_training=False), batch_size=batch_size, shuffle=False, num_workers=0)
     logging.info(f'Data loaders created')
 
     model = ResNet18Classifier(image_paths=test_image_paths)
@@ -490,17 +526,24 @@ for run in runs:
     mode='min'
 )
     
-    log_dir = os.path.join("lightning_logs", f"test_{test_location}_val_{val_location}")
+    log_dir = os.path.join(
+        "lightning_logs",
+        datetime.datetime.now(pytz.timezone('America/Los_Angeles')).strftime('%Y-%m-%d_%H-%M-%S')
+    )
+
+    tb_logger = pl_loggers.TensorBoardLogger(save_dir=log_dir, name='')
+    # Log test/val locations as hyperparameters
+    tb_logger.log_hyperparams({'test_locations': test_locations, 'val_locations': val_locations})
 
     trainer = pl.Trainer(
         max_epochs=num_epochs,
-        devices=[0],
+        devices='auto',  # Use all available GPUs
         num_nodes=1,
         accelerator='gpu',
-        strategy='auto',
+        strategy='ddp',  # Use DistributedDataParallel for multi-GPU
         precision='16-mixed',
-        logger=pl_loggers.TensorBoardLogger(save_dir=log_dir,name=''),
-        callbacks=[checkpoint_callback, early_stop_callback]
+        logger=tb_logger,
+        callbacks=[checkpoint_callback, early_stop_callback, LoggingCallback()]
     )
     
     logging.info(f'Starting model training')    

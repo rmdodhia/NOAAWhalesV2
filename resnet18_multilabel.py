@@ -313,10 +313,10 @@ for run in runs:
 
     trainer = pl.Trainer(
         max_epochs=num_epochs,
-        devices=[0],
+        devices='auto',  # Use all available GPUs
         num_nodes=1,
         accelerator='gpu',
-        strategy='ddp_notebook',
+        strategy='ddp',  # Use DistributedDataParallel for multi-GPU
         precision='16-mixed',
         logger=pl_loggers.TensorBoardLogger(save_dir=log_dir,name=''),
         callbacks=[checkpoint_callback]
