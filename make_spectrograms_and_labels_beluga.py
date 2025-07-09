@@ -178,7 +178,7 @@ def process_wav_file(
                 except Exception as e:
                     logging.error(f"Failed to save tensor for {audiofile} segment {abs_seg_start:.2f}-{abs_seg_end:.2f}s: {e}")
                     continue
-                results.append((fname, label))
+                results.append((fname, label, audiofile))
             return results
         except Exception as e:
             logging.error(f"process_padded_interval failed for {audiofile} interval {start:.2f}-{end:.2f}s: {e}")
@@ -227,7 +227,7 @@ def generate_spectrograms_and_labels(
             all_out.extend(out)
 
         # Write label CSV for this location
-        df = pd.DataFrame(all_out, columns=['filename', 'label'])
+        df = pd.DataFrame(all_out, columns=['filename', 'label', 'audiofile'])
         df['location'] = loc
         df['dirpath'] = dst
         df['fullpath'] = df['filename'].apply(lambda fn: os.path.join(dst, fn))

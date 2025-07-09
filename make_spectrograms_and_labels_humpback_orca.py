@@ -97,9 +97,9 @@ def process_wav_file(
                     wave = wave.to(DEVICE).half()
                     device = DEVICE
                     dtype = torch.float16
-                    logging.info(f"Processing chunk {chunk_index} of {n_chunks} for location {location} on GPU (float16): {chunk_samples} samples starting at {chunk_start_s:.2f}s")
+                    logging.info(f"Processing chunk {chunk_index + 1} of {n_chunks} for location {location} on GPU (float16): {chunk_samples} samples starting at {chunk_start_s:.2f}s")
                 except RuntimeError as oom:
-                    logging.warning(f"CUDA OOM for chunk {chunk_index} ({chunk_start_s:.2f}s), retrying on CPU: {oom}")
+                    logging.warning(f"CUDA OOM for chunk {chunk_index + 1} ({chunk_start_s:.2f}s), retrying on CPU: {oom}")
                     wave = wave.cpu().float()
                     device = 'cpu'
                     dtype = torch.float32
@@ -109,19 +109,19 @@ def process_wav_file(
                 dtype = torch.float32
                 logging.info(f"Processing chunk {chunk_index} of {n_chunks} for location {location} on CPU: {chunk_samples} samples starting at {chunk_start_s:.2f}s")
 
-            # --- Get all annotation intervals for this file ---
+            # --- Get all annotations and build padded intervals ---
             sub = ann_df[ann_df["audiofile"] == audiofile]
-            annotation_intervals = []
+            annotation_records = []  # (start, end, annotationfile)
             padded_intervals = []
-
             for _, row in sub.iterrows():
                 start = row["startseconds"]
                 end = start + row["durationseconds"]
-                annotation_intervals.append((start, end))
-                # Padded region (integer-rounded)
-                padded_start = max(start - n_pad, 0)
-                padded_end = min(end + n_pad, file_duration)
-                padded_intervals.append((padded_start, padded_end))
+                ann_file = row.get("annotationfile", "")
+                annotation_records.append((start, end, ann_file))
+                # Use exact interval without padding
+                padded_intervals.append((start, end))
+            # extract pure time intervals for region checks
+            annotation_intervals = [(a, b) for (a, b, _) in annotation_records]
 
             # --- Merge overlapping padded intervals into non-overlapping regions ---
             def merge_intervals(intervals):
@@ -178,7 +178,6 @@ def process_wav_file(
             stride = segment_duration - overlap
 
             # --- Store indices for null segment selection ---
-            padded_indices = []
             all_indices = []
             for i in range(num_segments):
                 seg_start = i * stride
@@ -186,17 +185,17 @@ def process_wav_file(
                 abs_seg_start = seg_start + chunk_start_s
                 abs_seg_end = seg_end + chunk_start_s
                 all_indices.append((i, abs_seg_start, abs_seg_end))
-                if in_any_region(abs_seg_start, abs_seg_end, merged_padded):
-                    padded_indices.append(i)
 
-            # --- For each segment in padded region, label as 1 if overlaps any annotation, else 0 ---
-            for i in padded_indices:
-                seg_start = i * stride
-                seg_end = seg_start + segment_duration
-                abs_seg_start = seg_start + chunk_start_s
-                abs_seg_end = seg_end + chunk_start_s
+            # --- For each segment across the whole chunk, label as 1 if overlaps any annotation, else 0, and record annotationfile ---
+            for i, abs_seg_start, abs_seg_end in all_indices:
                 arr = slices[i].numpy()
-                label = int(overlaps_any_anno(abs_seg_start, abs_seg_end, annotation_intervals, min_overlap_for_positive))
+                is_pos = overlaps_any_anno(abs_seg_start, abs_seg_end, annotation_intervals, min_overlap_for_positive)
+                label = int(is_pos)
+                overlapping_ann = [
+                    af for (a, b, af) in annotation_records
+                    if max(0, min(b, abs_seg_end) - max(a, abs_seg_start)) >= min_overlap_for_positive
+                ]
+                ann_str = ";".join(overlapping_ann) if overlapping_ann else ""
                 fname = f"{audiofile.replace('.wav','')}_{int(abs_seg_start*1000)}_{int(abs_seg_end*1000)}.pt"
                 fpath = os.path.join(dst_folder, fname)
                 try:
@@ -204,7 +203,7 @@ def process_wav_file(
                 except Exception as e:
                     logging.error(f"Failed to save tensor for {audiofile} segment {abs_seg_start:.2f}-{abs_seg_end:.2f}s: {e}")
                     continue
-                results.append((fname, label))
+                results.append((fname, label, audiofile, ann_str))
         except Exception as e:
             logging.error(f"process_chunk failed for {audiofile} chunk {chunk_index} ({chunk_start_s:.2f}s): {e}")
             return
@@ -226,8 +225,8 @@ def process_wav_file(
         n_chunks = 1
         wave, _ = torchaudio.load(wav_path)
         process_chunk(wave[0], chunk_start_s=0, ann_df=ann_df, sr=sr, chunk_index=0, n_chunks=n_chunks)
-    n_pos = sum(1 for _, label in results if label == 1)
-    n_neg = sum(1 for _, label in results if label == 0)
+    n_pos = sum(1 for _, label, _, _ in results if label == 1)
+    n_neg = sum(1 for _, label, _, _ in results if label == 0)
     logging.info(f"Processed file {audiofile}: {n_pos} positive, {n_neg} negative images generated")
     return results
 
@@ -273,16 +272,25 @@ def generate_spectrograms_and_labels(
     else:
         logging.warning("'location' column not found in annotation DataFrame!")
 
+    # --- Build canonical location to directory name map for Humpback ---
+    humpback_dir_map = {}
+    if species.lower() == "humpback":
+        # Find all *_humpback_data directories
+        data_dir = f"./DataInput/{species}"
+        for d in os.listdir(data_dir):
+            if d.endswith('_humpback_data'):
+                canon = canonical_location(d)
+                humpback_dir_map[canon] = d
+
     for loc in canonical_locations:
-        # Humpback: WAVs in {location}_humpback_data, annotations in {location}_humpback_selections
+        # Humpback: WAVs in {directory_name}, annotations in {location}_humpback_selections
         # Orca: WAVs and annotations in {location}/
         if species.lower() == "humpback":
-            # Find the actual directory name for this canonical location
-            src_candidates = glob.glob(f"./DataInput/{species}/{loc}_humpback_data")
-            if not src_candidates:
-                logging.warning(f"No source directory found for location {loc}")
+            dir_name = humpback_dir_map.get(loc)
+            if not dir_name:
+                logging.warning(f"No directory mapping found for canonical location {loc}")
                 continue
-            src = resolve_audio_folder(src_candidates[0])
+            src = resolve_audio_folder(f"./DataInput/{species}/{dir_name}")
         elif species.lower() == "orca":
             src = resolve_audio_folder(f"./DataInput/{species}/{loc}")
         else:
@@ -307,22 +315,21 @@ def generate_spectrograms_and_labels(
             all_out.extend(out)
 
         # Write label CSV for this location
-        df = pd.DataFrame(all_out, columns=['filename', 'label'])
+        df = pd.DataFrame(all_out, columns=['filename', 'label', 'audiofile', 'annotationfile'])
         df['location'] = loc
-        df['dirpath'] = dst
         df['fullpath'] = df['filename'].apply(lambda fn: os.path.join(dst, fn))
         df['species'] = species.lower()
-        csv_out = f"./DataInput/{species}/{species}_{loc}_overlap{int(overlap*1000)}ms_spectrogram_labels.csv"
+        csv_out = f"./DataInput/{species}/LabelsOverlap{int(overlap*1000)}ms/{species}_{loc}_overlap{int(overlap*1000)}ms_spectrogram_labels.csv"
         os.makedirs(os.path.dirname(csv_out), exist_ok=True)
         df.to_csv(csv_out, index=False)
         logging.info(f"Saved labels to {csv_out}")
 
     # After all locations processed, combine all label CSVs for this species into one file
-    pattern = f"./DataInput/{species}/{species}_*_overlap{int(overlap*1000)}ms_spectrogram_labels.csv"
+    pattern = f"./DataInput/{species}/LabelsOverlap{int(overlap*1000)}ms/{species}_*_overlap{int(overlap*1000)}ms_spectrogram_labels.csv"
     all_label_files = glob.glob(pattern)
     if all_label_files:
         all_df = pd.concat([pd.read_csv(f) for f in all_label_files], ignore_index=True)
-        combined_csv = f"./DataInput/{species}/{species}_labels.csv"
+        combined_csv = f"./DataInput/{species}/LabelsOverlap{int(overlap*1000)}ms/{species}_labels.csv"
         all_df.to_csv(combined_csv, index=False)
         logging.info(f"Combined all label files into {combined_csv}")
 
@@ -331,11 +338,11 @@ if __name__ == "__main__":
     generate_spectrograms_and_labels(
         species   = "Humpback",
         locations = [
+            "Chinitna",    # canonical, not LCI_Chinitna
+            "Iniskin",     # canonical, not LCI_Iniskin
+            "PtGraham",     # canonical, not LCI_Port_Graham
             "AL16_BS4",
-            "AL16_NM1",
-            "LCI_Chinitna",
-            "LCI_Iniskin",
-            "LCI_Port_Graham"
+            "AL16_NM1"
         ],
         ann_csv   = None,
         proportion = 1.0
