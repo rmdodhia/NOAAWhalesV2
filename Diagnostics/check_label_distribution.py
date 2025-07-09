@@ -28,25 +28,25 @@ if dfs:
         print("Required columns 'location' or 'label' not found in the CSV files.")
 else:
     print("No label files found.")
-    import matplotlib.pyplot as plt
 
-    if dfs and 'location' in all_labels.columns and 'label' in all_labels.columns:
-        # Pivot for plotting
-        pivot_counts = counts.pivot_table(index='species', columns='label', values='count', aggfunc='sum', fill_value=0)
-        # Stacked barchart in percentages
-        percent = pivot_counts.div(pivot_counts.sum(axis=1), axis=0) * 100
-        percent.plot(kind='bar', stacked=True)
-        plt.ylabel('Percentage')
-        plt.title('Label Distribution by Species (Percentages)')
-        plt.legend(title='Label')
-        plt.tight_layout()
-        plt.show()
+import matplotlib.pyplot as plt
 
-        # Side-by-side barchart with total numbers
-        pivot_counts.plot(kind='bar')
-        plt.ylabel('Count')
-        plt.title('Label Distribution by Species (Counts)')
-        plt.legend(title='Label')
-        plt.tight_layout()
-        plt.savefig("label_distribution_by_species.png")
-        
+if dfs and 'location' in all_labels.columns and 'label' in all_labels.columns:
+    # Pivot for plotting
+    pivot_counts = counts.pivot_table(index='species', columns='label', values='count', aggfunc='sum', fill_value=0)
+    # Stacked barchart in percentages
+    percent = pivot_counts.div(pivot_counts.sum(axis=1), axis=0) * 100
+    percent.plot(kind='bar', stacked=True)
+    plt.ylabel('Percentage')
+    plt.title('Label Distribution by Species (Percentages)')
+    plt.legend(title='Label')
+    plt.tight_layout()
+    plt.savefig("label_distribution_by_species (%).png")
+
+    # Side-by-side barchart with total numbers
+    pivot_counts.plot(kind='bar')
+    plt.ylabel('Count')
+    plt.title('Label Distribution by Species (Counts)')
+    plt.legend(title='Label')
+    plt.tight_layout()
+    plt.savefig("label_distribution_by_species.png")
