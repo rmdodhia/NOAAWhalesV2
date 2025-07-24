@@ -79,8 +79,8 @@ def main():
         help="Create a single PDF with all generated spectrograms."
     )
     parser.add_argument(
-        "--pdf-name", type=str, default="spectrograms_summary.pdf",
-        help="Name of the output PDF file (default: spectrograms_summary.pdf)."
+        "--pdf-name", type=str, default=None,
+        help="Name of the output PDF file (default: auto-generated with species name)."
     )
     
     args = parser.parse_args()
@@ -140,7 +140,14 @@ def main():
     
     # Create PDF if requested
     if args.pdf:
-        create_pdf_from_pngs(args.pdf_name)
+        # Generate species-based filename if not provided
+        if args.pdf_name is None:
+            species_list = sorted(df['species'].unique())
+            species_str = "_".join(species_list)
+            pdf_filename = f"{species_str}_spectrograms_summary.pdf"
+        else:
+            pdf_filename = args.pdf_name
+        create_pdf_from_pngs(pdf_filename)
 
 
 def create_pdf_from_pngs(pdf_name):
